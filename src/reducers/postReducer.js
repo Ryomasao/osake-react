@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { 
   FETCH_POSTS,
   FETCH_POST
- } from '../actions/types';
+} from '../actions/types';
 
 const postReducer = (state = {}, action) => {
   switch (action.type) {
