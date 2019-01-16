@@ -15,7 +15,7 @@ class PostList extends React.Component {
     return this.props.posts.map(post => {
       return (
         <div className="post-item" key={post.id}>
-          <Link to={`articles/show/${post.id}`} >
+          <Link to={`posts/show/${post.id}`} >
             <img src={post.imagePath} alt="osake"/>
           </Link>
         </div>
@@ -26,6 +26,7 @@ class PostList extends React.Component {
   render() {
     return (
       <div className="post-list">
+        <Link to="/posts/new">Create New</Link>
         <h1>PostList</h1>
         {this.renderList()}
       </div>
