@@ -1,53 +1,66 @@
 import React from 'react';
+import GoodCount from './GoodCount';
 
 class PostForm extends React.Component {
+  static defaultProps = {
+    onSubmit : () => Promise.resolve()
+  }
+
   state = {
-    image: null,
-    imagePreViewUrl: '',
-    memo: '',
-    date: '',
-    favos: 0,
+    post: {
+      note: '',
+      date: '',
+      favos: 0,
+    },
+    image: {
+      file: '',
+      name: '',
+    }
   }
 
   handleInputChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+    this.setState({ post: { ...this.state.post, [e.target.name]: e.target.value }});
   }
 
-  handleCountButtonClick = ({ targetName, operator }) => {
-    let newCount = this.state[targetName];
-    newCount = operator === 'increment' ? ++newCount: --newCount;
-    this.setState({
-      [targetName]: newCount
-    });
+  handleCountButtonClick = e => {
+    const { target } = e;
+    let newCount = this.state.post.favos;
+    newCount = target.name === 'increment' ? ++newCount: --newCount;
+    this.setState({ post: {...this.state.post, favos: newCount }});
   }
 
   handleChangeFile = e => {
     const file = e.target.files[0];
-    this.setState({
-      [e.target.name]: file 
-    });
+    const name = file.name;
+    this.setState({ image: {...this.state.image, file, name }});
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state);
   }
 
   render() {
+
+    const { note, date, favos } = this.state.post;
     return (
-      <div>
-        <h1>PlainPostForm</h1>
+      <form onSubmit={this.handleSubmit}>
         <div>
-          <label>しゃしん</label>
+          <label htmlFor="sake-image">しゃしん</label>
           <input 
-            name="image" 
+            id="sake-image"
+            name="sake-image" 
             type="file"
             onChange={this.handleChangeFile}
           />
         </div>
         <div>
-          <label>メモ</label>
+          <label htmlFor="sake-note">メモ</label>
           <input 
-            name="memo" 
+            id="note"
+            name="note" 
             type="text"
-            value={this.state.memo}
+            value={note}
             onChange={this.handleInputChange}
           />
         </div>
@@ -56,31 +69,16 @@ class PostForm extends React.Component {
           <input 
             name="date" 
             type="date"
-            value={this.state.date}
+            value={date}
             onChange={this.handleInputChange}
           />
         </div>
-        <div>
-          <p>いいね： {this.state.favos}</p>
-          <button 
-            type="button"
-            onClick={() => this.handleCountButtonClick({
-              targetName: 'favos',
-              operator: 'increment'
-            })}
-          >+</button>
-          <button 
-            type="button"
-            onClick={() => this.handleCountButtonClick({
-              targetName: 'favos',
-              operator: 'decrement'
-            })}
-          >-</button>
-        </div>
-        <div>
-          {JSON.stringify(this.state, null, 2)}
-        </div>
-      </div>
+        <GoodCount 
+          onClick={this.handleCountButtonClick}
+          value={favos}
+        />
+        <button>投稿する</button>
+      </form>
     );
   }
 }
