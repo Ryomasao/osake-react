@@ -8,12 +8,25 @@ import {
 
 export const fetchPosts = () => async dispatch => {
   const response = await firebase.get('/posts.json');
+  // response data is...
+  // { 
+  //  id: { postdata }, 
+  //  id: { postdata }, 
+  //  }
+  //
   dispatch({ type: FETCH_POSTS, payload: response.data});
 };
 
 export const fetchPost = id => async dispatch => {
   const response = await firebase.get(`/posts/${id}.json`);
-  dispatch({ type: FETCH_POST, payload: response.data});
+  const post = { [id]: response.data };
+  // response data is...
+  // { 
+  //   postdata, 
+  // }
+  //
+  // add key to postdata
+  dispatch({ type: FETCH_POST, payload: post});
 };
 
 export const createPost = formValue => async dispatch => {
@@ -25,6 +38,9 @@ export const createPost = formValue => async dispatch => {
   const response = await firebase.post('/posts.json', post );
   const createdPost = { [response.data.name]: post };
   dispatch({ type: CREATE_POST, payload: createdPost});
+};
+
+export const editPost = (id, formValue) => async dispatch => {
 };
 
 const _uploadImage = async ({ image }) => {
