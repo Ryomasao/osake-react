@@ -10,20 +10,20 @@ class PostShow extends React.Component {
   render() {
     const { 
       imagePath,
-      created_at,
+      createdAt,
       date,
       favos,
-      memo,
+      note,
     } = this.props.post;
 
     return (
       <div>
         <h1>PostShow</h1>
         <img src={imagePath} alt="osake"/>
-        <p>{created_at}</p>
+        <p>{createdAt}</p>
         <p>{date}</p>
         <p>{favos}</p>
-        <p>{memo}</p>
+        <p>{note}</p>
       </div>
     );
   }

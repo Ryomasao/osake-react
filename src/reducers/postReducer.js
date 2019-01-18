@@ -6,6 +6,7 @@ import {
 } from '../actions/types';
 
 const postReducer = (state = {}, action) => {
+  // stateはarrayじゃなくってObjectでもったほうがいい
   switch (action.type) {
   case FETCH_POSTS:
     return { ...state, ...action.payload };

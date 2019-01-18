@@ -7,12 +7,12 @@ import {
 } from './types';
 
 export const fetchPosts = () => async dispatch => {
-  const response = await firebase.get('/articles.json');
+  const response = await firebase.get('/posts.json');
   dispatch({ type: FETCH_POSTS, payload: response.data});
 };
 
 export const fetchPost = id => async dispatch => {
-  const response = await firebase.get(`/articles/${id}.json`);
+  const response = await firebase.get(`/posts/${id}.json`);
   dispatch({ type: FETCH_POST, payload: response.data});
 };
 
@@ -22,8 +22,9 @@ export const createPost = formValue => async dispatch => {
     imagePath,
     createdAt: new Date().toISOString()
   };
-  const response = await firebase.post('/posts.json', { post, imagePath });
-  dispatch({ type: CREATE_POST, payload: response.data});
+  const response = await firebase.post('/posts.json', post );
+  const createdPost = { [response.data.name]: post };
+  dispatch({ type: CREATE_POST, payload: createdPost});
 };
 
 const _uploadImage = async ({ image }) => {
