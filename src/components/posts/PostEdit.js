@@ -13,7 +13,6 @@ class PostEdit extends React.Component {
     await this.props.editPost(this.props.match.params.id, formValue);
     this.props.history.push('/');
   }
-
     
   render() {
     if(!this.props.post) {
@@ -22,7 +21,10 @@ class PostEdit extends React.Component {
 
     return (
       <div>
-        <PostForm />
+        <PostForm 
+          initialValue={this.props.post} 
+          onSubmit={this.handleSubmit}
+        />
       </div>
     );
   }

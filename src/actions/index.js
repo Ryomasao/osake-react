@@ -4,6 +4,7 @@ import {
   FETCH_POSTS,
   FETCH_POST,
   CREATE_POST,
+  EDIT_POST,
 } from './types';
 
 export const fetchPosts = () => async dispatch => {
@@ -41,6 +42,13 @@ export const createPost = formValue => async dispatch => {
 };
 
 export const editPost = (id, formValue) => async dispatch => {
+  const post = { ...formValue.post,
+    updatedAt: new Date().toISOString()
+  };
+  // @ToDo imageの再アップロード
+  const response = await firebase.patch(`/posts/${id}.json`, post);
+  const editedPost = { [id]: response.data };
+  dispatch({ type: EDIT_POST, payload: editedPost});
 };
 
 const _uploadImage = async ({ image }) => {

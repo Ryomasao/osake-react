@@ -3,6 +3,7 @@ import {
   FETCH_POSTS,
   FETCH_POST,
   CREATE_POST,
+  EDIT_POST,
 } from '../actions/types';
 
 const postReducer = (state = {}, action) => {
@@ -13,6 +14,8 @@ const postReducer = (state = {}, action) => {
   case FETCH_POST:
     return { ...state, ...action.payload };
   case CREATE_POST:
+    return { ...state, ...action.payload };
+  case EDIT_POST:
     return { ...state, ...action.payload };
   default:
     return state;
