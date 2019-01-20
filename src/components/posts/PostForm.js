@@ -1,5 +1,6 @@
 import React from 'react';
 import GoodCount from './GoodCount';
+import ImagePreview from './ImagePreview';
 
 const defaultValue = {
   post: {
@@ -8,7 +9,7 @@ const defaultValue = {
     favos: 0,
   },
   image: {
-    file: '',
+    file: null,
     name: '',
   }
 };
@@ -34,9 +35,7 @@ class PostForm extends React.Component {
     this.setState({ post: {...this.state.post, favos: newCount }});
   }
 
-  handleChangeFile = e => {
-    const file = e.target.files[0];
-    const name = file.name;
+  handleChangeFile = (file, name) => {
     this.setState({ image: {...this.state.image, file, name }});
   }
 
@@ -56,12 +55,7 @@ class PostForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div>
           <label htmlFor="sake-image">しゃしん</label>
-          <input 
-            id="sake-image"
-            name="sake-image" 
-            type="file"
-            onChange={this.handleChangeFile}
-          />
+          <ImagePreview onChange={this.handleChangeFile}/>
         </div>
         <div>
           <label htmlFor="sake-note">メモ</label>
