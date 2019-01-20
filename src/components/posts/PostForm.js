@@ -1,9 +1,11 @@
 import React from 'react';
 import GoodCount from './GoodCount';
 import ImagePreview from './ImagePreview';
+import createErrors from '../../util/createErrors';
 
-const defaultValue = {
+const initalFormValues = {
   post: {
+    imagePath: '',
     note: '',
     date: '',
     favos: 0,
@@ -11,18 +13,27 @@ const defaultValue = {
   image: {
     file: null,
     name: '',
-  }
+  },
 };
+
+const initalFormErorrs = {
+  errors: createErrors(initalFormValues.post) 
+};
+
+const defaultState = {
+  ...initalFormValues,
+  ...initalFormErorrs
+};
+
 
 class PostForm extends React.Component {
   static defaultProps = {
     onSubmit : () => Promise.resolve()
   }
 
-  state = this.props.initialValue ?  {
-    post: { ...this.props.initialValue },
-    image: { ...defaultValue.image }
-  } : defaultValue
+  state = this.props.initialValue ?  
+    { ...defaultState,  post: {...this.props.initialValue} }
+    : defaultState
 
   handleInputChange = e => {
     this.setState({ post: { ...this.state.post, [e.target.name]: e.target.value }});
@@ -41,6 +52,13 @@ class PostForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+
+    for(const key in this.state.post) {
+      if(this.state.post[key] === initalFormValues.post[key]) {
+        this.setState({errors: { ...this.state.errors, [key]: {isError: true} } });
+      }
+    }
+
     this.props.onSubmit(this.state);
   }
 
