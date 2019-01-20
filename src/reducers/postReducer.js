@@ -1,9 +1,11 @@
+import _ from 'lodash';
 import { combineReducers } from 'redux';
 import { 
   FETCH_POSTS,
   FETCH_POST,
   CREATE_POST,
   EDIT_POST,
+  DELETE_POST,
 } from '../actions/types';
 
 const postReducer = (state = {}, action) => {
@@ -17,6 +19,8 @@ const postReducer = (state = {}, action) => {
     return { ...state, ...action.payload };
   case EDIT_POST:
     return { ...state, ...action.payload };
+  case DELETE_POST:
+    return _.omit(state, action.payload);
   default:
     return state;
   }

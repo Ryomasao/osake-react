@@ -5,6 +5,7 @@ import {
   FETCH_POST,
   CREATE_POST,
   EDIT_POST,
+  DELETE_POST,
 } from './types';
 
 export const fetchPosts = () => async dispatch => {
@@ -55,6 +56,15 @@ export const editPost = (id, formValue) => async (dispatch, getState) => {
   const response = await firebase.patch(`/posts/${id}.json`, post);
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
+};
+
+export const deletePost = id => async dispatch => {
+  await firebase.delete(`/posts/${id}.json`).catch(error => {
+    // eslint-disable-next-line
+    console.error(error);
+  });
+
+  dispatch({ type: DELETE_POST, payload: id });
 };
 
 const _uploadImage = async ({ image }) => {
