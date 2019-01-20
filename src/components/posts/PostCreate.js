@@ -5,7 +5,7 @@ import { createPost } from '../../actions';
 import PostForm from './PostForm';
 
 class PostCreate extends React.Component {
-  onSubmit = async (formValue) => {
+  handleSubmit = async formValue => {
     await this.props.createPost(formValue);
     // loading
     // https://developers.freee.co.jp/entry/react-loading-pattern
@@ -18,7 +18,7 @@ class PostCreate extends React.Component {
     return (
       <div>
         PostCreate
-        <PostForm onSubmit={this.onSubmit}/>
+        <PostForm onSubmit={this.handleSubmit}/>
       </div>
     );
   }

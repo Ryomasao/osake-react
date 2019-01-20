@@ -1,22 +1,27 @@
 import React from 'react';
 import GoodCount from './GoodCount';
 
+const defaultValue = {
+  post: {
+    note: '',
+    date: '',
+    favos: 0,
+  },
+  image: {
+    file: '',
+    name: '',
+  }
+};
+
 class PostForm extends React.Component {
   static defaultProps = {
     onSubmit : () => Promise.resolve()
   }
 
-  state = {
-    post: {
-      note: '',
-      date: '',
-      favos: 0,
-    },
-    image: {
-      file: '',
-      name: '',
-    }
-  }
+  state = this.props.initialValue ?  {
+    post: { ...this.props.initialValue },
+    image: { ...defaultValue.image }
+  } : defaultValue
 
   handleInputChange = e => {
     this.setState({ post: { ...this.state.post, [e.target.name]: e.target.value }});
@@ -41,8 +46,12 @@ class PostForm extends React.Component {
   }
 
   render() {
+    const { 
+      note, 
+      date, 
+      favos 
+    } =  this.state.post;
 
-    const { note, date, favos } = this.state.post;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>

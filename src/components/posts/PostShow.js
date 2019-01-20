@@ -8,6 +8,10 @@ class PostShow extends React.Component {
   }
 
   render() {
+    if(!this.props.post) {
+      return <div>Loading...</div>;
+    }
+
     const { 
       imagePath,
       createdAt,
@@ -16,6 +20,7 @@ class PostShow extends React.Component {
       note,
     } = this.props.post;
 
+    
     return (
       <div>
         <h1>PostShow</h1>
@@ -29,8 +34,8 @@ class PostShow extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { post: state.posts };
+const mapStateToProps = (state, ownProps) => {
+  return { post: state.posts[ownProps.match.params.id] };
 };
 
 export default connect(mapStateToProps, {
