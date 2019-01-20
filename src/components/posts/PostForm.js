@@ -55,7 +55,10 @@ class PostForm extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <div>
           <label htmlFor="sake-image">しゃしん</label>
-          <ImagePreview onChange={this.handleChangeFile}/>
+          <ImagePreview 
+            onChange={this.handleChangeFile}
+            previewUrl={this.state.post.imagePath}
+          />
         </div>
         <div>
           <label htmlFor="sake-note">メモ</label>

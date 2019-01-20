@@ -1,7 +1,7 @@
 import React from 'react';
 
 class ImagePreview extends React.Component {
-  state = { previewUrl: ''}
+  state = { previewUrl: this.props.previewUrl ? this.props.previewUrl : '' }
 
   handleChangeFile = ({ target }) => {
     const file = target.files[0];

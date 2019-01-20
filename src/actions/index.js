@@ -41,11 +41,17 @@ export const createPost = formValue => async dispatch => {
   dispatch({ type: CREATE_POST, payload: createdPost});
 };
 
-export const editPost = (id, formValue) => async dispatch => {
+export const editPost = (id, formValue) => async (dispatch, getState) => {
+  let imagePath = getState().posts[id].imagePath;
+
+  //imgaeが設定されている場合、アップロード後のURLを設定する
+  if (formValue.image.file) {
+    imagePath = await _uploadImage(formValue);
+  }
   const post = { ...formValue.post,
+    imagePath,
     updatedAt: new Date().toISOString()
   };
-  // @ToDo imageの再アップロード
   const response = await firebase.patch(`/posts/${id}.json`, post);
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
