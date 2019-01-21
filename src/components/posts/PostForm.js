@@ -53,11 +53,19 @@ class PostForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
 
+    const errors = initalFormErorrs.errors;
+
+    // @ToDo Validationをまともに実装する
+    let hasError = false;
     for(const key in this.state.post) {
       if(this.state.post[key] === initalFormValues.post[key]) {
-        this.setState({errors: { ...this.state.errors, [key]: {isError: true} } });
+        errors[key].isError = true;
+        hasError = true;
       }
     }
+
+    this.setState({ errors });
+    if(hasError) return;
 
     this.props.onSubmit(this.state);
   }
@@ -78,6 +86,7 @@ class PostForm extends React.Component {
             previewUrl={this.state.post.imagePath}
           />
         </div>
+        { this.state.errors.imagePath.isError ? <p>しゃしん is required</p> : null }
         <div>
           <label htmlFor="sake-note">メモ</label>
           <input 
@@ -97,6 +106,7 @@ class PostForm extends React.Component {
             onChange={this.handleInputChange}
           />
         </div>
+        { this.state.errors.date.isError ? <p> 飲んだ日 is required</p> : null }
         <GoodCount 
           onClick={this.handleCountButtonClick}
           value={favos}
