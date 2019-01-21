@@ -18,7 +18,7 @@ class PostCreate extends React.Component {
     return (
       <div>
         PostCreate
-        <PostForm onSubmit={this.handleSubmit}/>
+        <PostForm />
       </div>
     );
   }
