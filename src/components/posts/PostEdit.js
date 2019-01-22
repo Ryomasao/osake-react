@@ -22,7 +22,7 @@ class PostEdit extends React.Component {
     return (
       <div>
         <PostForm 
-          initialValue={this.props.post} 
+          initialValues={this.props.post} 
           onSubmit={this.handleSubmit}
         />
       </div>

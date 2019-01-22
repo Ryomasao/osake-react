@@ -3,31 +3,23 @@ import GoodCount from './GoodCount';
 import ImagePreview from './ImagePreview';
 import { Formik, Form, Field } from 'formik';
 
-
-const initialValues = {
-  post : {
-    imagePath: '',
-    note: '',
-    date: '',
-    favos: 0,
-  },
-  image: {
-    file: null,
-    name: '',
-  }
-};
-
-
 const handleSubmit =  async (values, actions, onSubmit) => {
-  // @ToDO
+  await onSubmit(values);
+  actions.setSubmitting(false);
 };
 
-const validateImage = value => {
-  let error = '';
-  if(!value.file) {
-    error = 'しゃしんは必須だよ！';
+const validate = ({ post, image }) => {
+  let errors = {};
+
+  // しゃしんを 新規登録時
+  // fileにFileObjectが設定される
+  // しゃしんを 更新時
+  // しゃしん以外を更新
+  // fileはnull、post.imagePathにURLが設定済
+  if(image.file === null && post.imagePath === '') {
+    errors.image = 'しゃしんは必須だよ！';
   }
-  return error;
+  return errors;
 };
 
 const ImagePreviewWrapper = props => (
@@ -35,6 +27,9 @@ const ImagePreviewWrapper = props => (
     onChange={(file, name) => {
       props.form.setFieldValue('image.name', name);
       props.form.setFieldValue('image.file', file);
+      // post.imagePathはEdit時にアップロード済のしゃしんのURLが設定される。
+      // しゃしんを上げ直した場合は、設定されたURLをクリアする
+      props.form.setFieldValue('post.imagePath', '');
     }}
     previewUrl={props.previewUrl}
   />
@@ -58,20 +53,39 @@ const GoodCountWrapper = props => {
   );
 };
 
+const initialFormValues = {
+  post : {
+    imagePath: '',
+    note: '',
+    date: '',
+    favos: 0,
+  },
+  image: {
+    file: null,
+    name: '',
+  }
+};
+
 class PostForm extends React.Component {
   render() {
+    const initalValues = this.props.initialValues ? {
+      post: { ...this.props.initialValues },
+      image: { ...initialFormValues.image }
+    } : initialFormValues;
+
     return (
       <Formik 
-        initialValues={initialValues}
+        initialValues={initalValues}
+        validate={validate}
         validateOnChange={false}
         validateOnBlur={false}
-        onSubmit={({values, actions}) => handleSubmit(values, actions, this.props.onSubmit)}
+        onSubmit={(values, actions) => handleSubmit(values, actions, this.props.onSubmit)}
       >
         { props => {
           return (
             <Form>
               <label htmlFor="sake-image">しゃしん</label>
-              <Field name="image" previewUrl="" validate={validateImage} component={ImagePreviewWrapper} />
+              <Field name="image" previewUrl={props.values.post.imagePath} component={ImagePreviewWrapper} />
               { props.errors.image ? <p>{props.errors.image}</p> : null}
               <label htmlFor="sake-note">メモ</label>
               <Field type="text" name="post.note"/>
