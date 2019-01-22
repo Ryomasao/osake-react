@@ -1,5 +1,5 @@
-import firebase from '../apis/firebase';
-import fireStorage from '../apis/firestorage';
+import firebaseREST from '../apis/firebase';
+import firebase from '../firebase';
 import { 
   FETCH_POSTS,
   FETCH_POST,
@@ -9,7 +9,7 @@ import {
 } from './types';
 
 export const fetchPosts = () => async dispatch => {
-  const response = await firebase.get('/posts.json');
+  const response = await firebaseREST.get('/posts.json');
   // response data is...
   // { 
   //  id: { postdata }, 
@@ -20,7 +20,7 @@ export const fetchPosts = () => async dispatch => {
 };
 
 export const fetchPost = id => async dispatch => {
-  const response = await firebase.get(`/posts/${id}.json`);
+  const response = await firebaseREST.get(`/posts/${id}.json`);
   const post = { [id]: response.data };
   // response data is...
   // { 
@@ -37,7 +37,7 @@ export const createPost = formValue => async dispatch => {
     imagePath,
     createdAt: new Date().toISOString()
   };
-  const response = await firebase.post('/posts.json', post );
+  const response = await firebaseREST.post('/posts.json', post );
   const createdPost = { [response.data.name]: post };
   dispatch({ type: CREATE_POST, payload: createdPost});
 };
@@ -53,13 +53,13 @@ export const editPost = (id, formValue) => async (dispatch, getState) => {
     imagePath,
     updatedAt: new Date().toISOString()
   };
-  const response = await firebase.patch(`/posts/${id}.json`, post);
+  const response = await firebaseREST.patch(`/posts/${id}.json`, post);
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
 };
 
 export const deletePost = id => async dispatch => {
-  await firebase.delete(`/posts/${id}.json`).catch(error => {
+  await firebaseREST.delete(`/posts/${id}.json`).catch(error => {
     // eslint-disable-next-line
     console.error(error);
   });
@@ -68,7 +68,7 @@ export const deletePost = id => async dispatch => {
 };
 
 const _uploadImage = async ({ image }) => {
-  const storageRef = fireStorage.storage().ref();
+  const storageRef = firebase.storage().ref();
   const imageRef = storageRef.child('osake-images');
   const createdDate = new Date().getTime();
   const spaceRef = imageRef.child(`${createdDate}_${image.name}`);
