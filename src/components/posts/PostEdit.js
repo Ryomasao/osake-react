@@ -20,7 +20,7 @@ class PostEdit extends React.Component {
     }
 
     return (
-      <div>
+      <div data-testid="post-form">
         <PostForm 
           initialValues={this.props.post} 
           onSubmit={this.handleSubmit}
