@@ -38,6 +38,7 @@ export const createPost = formValue => async (dispatch, getState) => {
   const imagePath = await _uploadImage(formValue);
   const post = { ...formValue.post,
     imagePath,
+    userId,
     createdAt: new Date().toISOString()
   };
   const response = await firebaseREST.post(`/users/${userId}/posts.json?auth=${token}`, post );
