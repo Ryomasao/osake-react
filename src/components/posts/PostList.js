@@ -23,10 +23,14 @@ class PostList extends React.Component {
     });
   }
 
+  renderCreateButton() {
+    return <Link to="/posts/new">Create New</Link>;
+  }
+
   render() {
     return (
       <div className="post-list">
-        <Link to="/posts/new">Create New</Link>
+        {this.props.isSignedIn ? this.renderCreateButton() : null}
         <h1>PostList</h1>
         {this.renderList()}
       </div>
@@ -41,7 +45,10 @@ const mapStateToProps = state => {
     posts[id] = { ...posts[id] , id: id };
   }
   // mapが使えるように、Object in Object から Object in Arrayにする
-  return { posts: Object.values(posts) };
+  return { 
+    posts: Object.values(posts),
+    isSignedIn: state.auth.isSignedIn,
+  };
 };
 
 export default connect(mapStateToProps, {

@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { combineReducers } from 'redux';
 import { 
   FETCH_POSTS,
   FETCH_POST,
@@ -26,6 +25,4 @@ const postReducer = (state = {}, action) => {
   }
 };
 
-export default combineReducers({
-  posts: postReducer
-});
+export default postReducer;
