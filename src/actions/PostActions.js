@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import firebaseREST from '../apis/firebase';
 import firebase from '../firebase';
 import { 
@@ -42,12 +43,17 @@ export const createPost = formValue => async (dispatch, getState) => {
     createdAt: new Date().toISOString()
   };
   const response = await firebaseREST.post(`/users/${userId}/posts.json?auth=${token}`, post );
+
   const createdPost = { [response.data.name]: post };
   dispatch({ type: CREATE_POST, payload: createdPost});
 };
 
 export const editPost = (id, formValue) => async (dispatch, getState) => {
   const token = await getState().auth.user.getIdToken(true);
+  // 認証済みユーザーのIDではなく、postのuseridを使うべきな気もする。
+  // クライアントで無理やり、userのidとpostのidをあわせると、編集ボタンがだせるから。
+  // といっても、クライアントはなんでもありなので、他人のデータに更新かけれないようにするとかは、
+  // サーバ側でやるべきだからいいかな。
   const userId = getState().auth.userId;
 
   // formValueにはimagePathが含まれないので、stateから取得する
@@ -57,23 +63,22 @@ export const editPost = (id, formValue) => async (dispatch, getState) => {
   if (formValue.image.file) {
     imagePath = await _uploadImage(formValue);
   }
-  const post = { ...formValue.post,
+  
+  const post = { ..._.omit(formValue.post, 'userId'),
     imagePath,
     updatedAt: new Date().toISOString()
   };
   const response = await firebaseREST.patch(`/users/${userId}/posts/${id}.json?auth=${token}`, post );
+
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
 };
 
 export const deletePost = id => async (dispatch, getState) => {
-  const token = await getState.auth.user.getIdToken(true);
+  const token = await getState().auth.user.getIdToken(true);
+  const userId = getState().auth.userId;
 
-  await firebaseREST.delete(`/posts/${id}.json?auth=${token}`).catch(error => {
-    // eslint-disable-next-line
-    console.error(error);
-  });
-
+  await firebaseREST.delete(`/users/${userId}/posts/${id}.json?auth=${token}`);
   dispatch({ type: DELETE_POST, payload: id });
 };
 

@@ -6,7 +6,12 @@ import PostForm from './PostForm';
 
 class PostCreate extends React.Component {
   handleSubmit = async formValue => {
-    await this.props.createPost(formValue);
+    await this.props.createPost(formValue)
+      .catch(error => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
+
     // loading
     // https://developers.freee.co.jp/entry/react-loading-pattern
     // withRouter

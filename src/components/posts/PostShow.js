@@ -13,11 +13,15 @@ class PostShow extends React.Component {
   }
 
   handleDeleteButton = async () => {
-    await this.props.deletePost(this.props.match.params.id);
+    await this.props.deletePost(this.props.match.params.id)
+      .catch(error => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
     this.props.history.push('/');
   }
 
-  renderAdmin() {
+  renderIfOwnPost() {
     const { id } = this.props.match.params;
 
     return (
@@ -47,6 +51,7 @@ class PostShow extends React.Component {
   }
 
   render() {
+
     if(!this.props.post) {
       return <div>Loading...</div>;
     }
@@ -54,28 +59,35 @@ class PostShow extends React.Component {
     const { 
       imagePath,
       createdAt,
+      updatedAt,
       date,
       favos,
       note,
     } = this.props.post;
 
-    
     return (
       <div>
         <h1>PostShow</h1>
         <img src={imagePath} alt="osake"/>
         <p>{createdAt}</p>
+        <p>{updatedAt}</p>
         <p>{date}</p>
         <p>{favos}</p>
         <p>{note}</p>
-        {this.renderAdmin()}
+        {this.props.isOwnPost ? this.renderIfOwnPost() : null}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  return { post: state.posts[ownProps.match.params.id] };
+  const post = state.posts[ownProps.match.params.id];
+  return { 
+    post,
+    auth: state.auth,
+    // postがloadingできていない状態を考慮
+    isOwnPost: post && post.userId === state.auth.userId
+  };
 };
 
 export default withRouter(connect(mapStateToProps, {

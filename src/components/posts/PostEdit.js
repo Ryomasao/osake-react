@@ -10,7 +10,11 @@ class PostEdit extends React.Component {
   }
 
   handleSubmit = async formValue => {
-    await this.props.editPost(this.props.match.params.id, formValue);
+    await this.props.editPost(this.props.match.params.id, formValue)
+      .catch(error => {
+        // eslint-disable-next-line
+        console.error(error);
+      });
     this.props.history.push('/');
   }
     
