@@ -28,16 +28,16 @@ class FirebaseLogin extends React.Component {
 
 
   render() {
-    if (this.props.isSigneIn) {
-      return <button onClick={this.handleLogout}>Logout</button>;
+    if (this.props.isSignedIn) {
+      return <button type="button" onClick={this.handleLogout}>Logout</button>;
     }
-    return <button onClick={this.handleLogin}>Login</button>;
+    return <button type="button" onClick={this.handleLogin}>Login</button>;
   }
 }
 
 const mapStateToProps = state => {
   return {
-    isSigneIn: state.auth.user ? true : false
+    isSignedIn: state.auth.isSignedIn
   };
 };
 

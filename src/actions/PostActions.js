@@ -31,21 +31,28 @@ export const fetchPost = id => async dispatch => {
   dispatch({ type: FETCH_POST, payload: post});
 };
 
-export const createPost = formValue => async dispatch => {
+export const createPost = formValue => async (dispatch, getState) => {
+  const token = await getState().auth.user.getIdToken(true);
+  const userId = getState().auth.userId;
+
   const imagePath = await _uploadImage(formValue);
   const post = { ...formValue.post,
     imagePath,
     createdAt: new Date().toISOString()
   };
-  const response = await firebaseREST.post('/posts.json', post );
+  const response = await firebaseREST.post(`/users/${userId}/posts.json?auth=${token}`, post );
   const createdPost = { [response.data.name]: post };
   dispatch({ type: CREATE_POST, payload: createdPost});
 };
 
 export const editPost = (id, formValue) => async (dispatch, getState) => {
+  const token = await getState().auth.user.getIdToken(true);
+  const userId = getState().auth.userId;
+
+  // formValueにはimagePathが含まれないので、stateから取得する
   let imagePath = getState().posts[id].imagePath;
 
-  //imgaeが設定されている場合、アップロード後のURLを設定する
+  // imgaeが設定されている場合、アップロード後のURLを設定する
   if (formValue.image.file) {
     imagePath = await _uploadImage(formValue);
   }
@@ -53,13 +60,15 @@ export const editPost = (id, formValue) => async (dispatch, getState) => {
     imagePath,
     updatedAt: new Date().toISOString()
   };
-  const response = await firebaseREST.patch(`/posts/${id}.json`, post);
+  const response = await firebaseREST.patch(`/users/${userId}/posts/${id}.json?auth=${token}`, post );
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
 };
 
-export const deletePost = id => async dispatch => {
-  await firebaseREST.delete(`/posts/${id}.json`).catch(error => {
+export const deletePost = id => async (dispatch, getState) => {
+  const token = await getState.auth.user.getIdToken(true);
+
+  await firebaseREST.delete(`/posts/${id}.json?auth=${token}`).catch(error => {
     // eslint-disable-next-line
     console.error(error);
   });

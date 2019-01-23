@@ -7,8 +7,9 @@ import {
 export const signIn = (user) => {
   return { type: SIGN_IN, payload: {
     user,
+    isSignedIn: true,
     userId: user.uid,
-    userNmae: user.displayName,
+    userName: user.displayName,
   }};
 };
 

@@ -5,6 +5,7 @@ import {
 
 const INITIAL_STATE = {
   user: null,
+  isSignedIn: null,
   userId: null,
   userName: '',
 };
