@@ -6,16 +6,23 @@ const Header = () => {
     <div>
       <nav className="navbar is-link" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
+          <a className="navbar-item" href="/">
             <img src={logo} alt="logo" width="112" height="28" />
           </a>
-          
-          { // eslint-disable-next-line 
-          }<a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
+        </div>
+        <div className="navbar-menu is-active">
+          <div className="navbar-end">
+            <div className="navbar-item">
+              <div className="buttons">
+                <a className="button is-primary">
+                  <strong>ログイン</strong>
+                </a>
+                <a className="button is-light">
+                  ログアウト
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </nav>
     </div>
