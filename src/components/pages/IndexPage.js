@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import DefaultTemplate from '../template/DefaultTemplate';
 import PostList from '../organisms/PostList';
 import LoginModal from '../organisms/LoginModal';
-import { firebaseLogin, firebaseLogout } from '../../firebase';
+import { firebaseLogin } from '../../firebase';
 import Link from '../atoms/Link';
 import Button from '../atoms/Button';
 
@@ -16,10 +16,6 @@ class IndexPage extends React.Component {
 
   handleLoginButton = () => {
     firebaseLogin();
-  }
-
-  handleLogoutButton = () => {
-    firebaseLogout();
   }
 
   renderLodaingOrContent() {
@@ -37,11 +33,6 @@ class IndexPage extends React.Component {
         <section className="seciton">
           { this.props.isSignedIn ?
             <React.Fragment>
-              <Button 
-                text="ログアウトする" 
-                addClassName="is-success is-fullwidth"
-                onClick={this.handleLogoutButton}
-              />
               <Link to="/posts/new" text="投稿する" addClassName="is-large is-fullwidth is-success"/>
             </React.Fragment>
             :

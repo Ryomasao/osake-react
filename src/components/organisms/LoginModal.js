@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Modal from '../molecules/Modal';
 import LoginButtons from '../molecules/LoginButtons';
 import Button from '../atoms/Button';
+import modal from '../../static/img/modal.png';
 
 
 const LoginModalComponent = props => {
@@ -13,7 +14,7 @@ const LoginModalComponent = props => {
           <h4 className="title is-4">こんにちは</h4>
         </Header>
         <ImageWrapper>
-          <img src="https://placehold.jp/300x250.png" alt="login"/>
+          <img src={modal} alt="login"/>
         </ImageWrapper>
         <LoginButtons>
           <Button 
