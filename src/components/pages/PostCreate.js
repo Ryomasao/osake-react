@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { createPost } from '../../actions';
-import PostForm from './PostForm';
+import PostForm from '../organisms/PostForm';
 
 class PostCreate extends React.Component {
   handleSubmit = async formValue => {

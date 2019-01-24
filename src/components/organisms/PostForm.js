@@ -1,6 +1,6 @@
 import React from 'react';
-import GoodCount from './GoodCount';
-import ImagePreview from './ImagePreview';
+import GoodCount from '../molecules/GoodCount';
+import ImagePreview from '../molecules/ImagePreview';
 import { Formik, Form, Field } from 'formik';
 
 const handleSubmit =  async (values, actions, onSubmit) => {
