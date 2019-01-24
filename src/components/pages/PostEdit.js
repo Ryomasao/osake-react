@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchPost, editPost } from '../../actions';
-import PostForm from './PostForm';
+import PostForm from '../organisms/PostForm';
 
 class PostEdit extends React.Component {
   componentDidMount() {
