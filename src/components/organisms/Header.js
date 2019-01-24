@@ -1,5 +1,4 @@
 import React from 'react';
-import FirebaseLogin from '../molecules/FirebaseLogin';
 import logo from '../../static/img/logo.jpg';
 
 const Header = () => {
@@ -19,7 +18,6 @@ const Header = () => {
           </a>
         </div>
       </nav>
-      <FirebaseLogin />
     </div>
   );
 };

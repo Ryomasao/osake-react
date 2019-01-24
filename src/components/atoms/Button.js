@@ -1,9 +1,12 @@
 import React from 'react';
 
-const ButtonComponent = props => {
+const Button = props => {
   return (
-    <button className="button">{props.text}</button>    
+    <button 
+      className={`button ${props.addClassName}`}
+      onClick={props.onClick}
+    >{props.text}</button>    
   );
 };
 
-export default ButtonComponent;
+export default Button;

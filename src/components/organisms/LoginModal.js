@@ -1,10 +1,13 @@
 import React from 'react';
-import Modal from '../molecules/Modal';
 import styled from 'styled-components';
+import Modal from '../molecules/Modal';
+import LoginButtons from '../molecules/LoginButtons';
+import Button from '../atoms/Button';
 
-const LoginModalComponent = () => {
+
+const LoginModalComponent = props => {
   return (
-    <Modal>
+    <Modal onClickCloseButton={props.onClickCloseButton}>
       <LoginModal>
         <Header>
           <h4 className="title is-4">こんにちは</h4>
@@ -12,10 +15,18 @@ const LoginModalComponent = () => {
         <ImageWrapper>
           <img src="https://placehold.jp/300x250.png" alt="login"/>
         </ImageWrapper>
-        <Buttons>
-          <button className="button is-success is-fullwidth">投稿もする</button>
-          <button className="button is-info is-fullwidth">みるだけ</button>
-        </Buttons>
+        <LoginButtons>
+          <Button 
+            text="ログインして利用する" 
+            addClassName="is-success is-fullwidth"
+            onClick={props.onClickLoginButton}
+          />
+          <Button 
+            text="みるだけ" 
+            addClassName="is-info is-fullwidth"
+            onClick={props.onClickCloseButton}
+          />
+        </LoginButtons>
       </LoginModal>
     </Modal>
   );
@@ -41,13 +52,5 @@ const ImageWrapper = styled.figure`
   text-align: center;
 `;
 
-const Buttons = styled.div`
-  width: 100%;
-
-  button {
-    margin-bottom: 0.5rem;
-  }
-
-`;
 
 export default LoginModalComponent;

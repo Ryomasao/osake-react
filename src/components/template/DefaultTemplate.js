@@ -1,28 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import { signIn, signOut } from '../../actions';
 import DefaultHeader from '../organisms/Header';
+import { fireBaseAuthObserver } from '../../firebase';
 
-const DefaultTemplate = props => {
-  const Header = props.header ? props.header : DefaultHeader;
+class DefaultTemplate extends React.Component {
+  // @ToDO HOOKSを使えばFunctionalComponentにできるかな
+  componentDidMount() {
+    fireBaseAuthObserver(this.props.signIn, this.props.signOut);
+  }
 
-  return (
-    <Wrapper>
-      <header className="header">
-        <Header />
-      </header>
-      <section className="section main">
-        {props.children}
-      </section>
-      <footer className="footer">
-        {props.footer}
-      </footer>
-    </Wrapper>
-  );
-};
+  render() {
+    const Header = this.props.header ? this.props.header : DefaultHeader;
+
+    return (
+      <Wrapper>
+        <header className="header">
+          <Header />
+        </header>
+        <section className="section main">
+          {this.props.children}
+        </section>
+        <footer className="footer">
+          {this.props.footer}
+        </footer>
+      </Wrapper>
+    );
+  }
+}
 
 const Wrapper = styled.div`
   font-family: 'Sawarabi Gothic', sans-serif;
   background-color: #eff0eb;
 `;
 
-export default DefaultTemplate;
+export default connect(null, {
+  signIn,
+  signOut,
+})(DefaultTemplate);

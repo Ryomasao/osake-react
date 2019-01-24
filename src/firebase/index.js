@@ -10,4 +10,24 @@ const config = {
 
 firebase.initializeApp(config);
 
+export const firebaseLogin = () => {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithRedirect(provider);
+};
+
+export const firebaseLogout = () => {
+  firebase.auth().signOut();
+};
+
+export const fireBaseAuthObserver = (onSignIn, onSignOut) => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      onSignIn(user);
+    } else {
+      // 未認証時はログアウトと同様の扱い
+      onSignOut();
+    }
+  });
+};
+
 export default firebase;
