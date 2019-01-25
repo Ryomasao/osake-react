@@ -23,14 +23,9 @@ class PostList extends React.Component {
     });
   }
 
-  renderCreateButton() {
-    return <Link to="/posts/new">Create New</Link>;
-  }
-
   render() {
     return (
       <div className="post-list">
-        {this.props.isSignedIn ? this.renderCreateButton() : null}
         <h1>PostList</h1>
         {this.renderList()}
       </div>

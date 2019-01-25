@@ -1,23 +1,42 @@
 import React from 'react';
 import logo from '../../static/img/logo.jpg';
+import { firebaseLogin, firebaseLogout } from '../../firebase';
+import NavBar from '../molecules/NavBar';
+import NavBrand from '../molecules/NavBrand';
+import NavMenu from '../molecules/NavMenu';
+import LoginToggleButotn from '../atoms/LoginToggleButton';
 
-const Header = () => {
+
+const handleLogout = () => {
+  firebaseLogout();
+};
+
+const handleLogin = () => {
+  firebaseLogin();
+};
+
+const Header = props => {
   return (
     <div>
-      <nav className="navbar is-link" role="navigation" aria-label="main navigation">
-        <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
-            <img src={logo} alt="logo" width="112" height="28" />
-          </a>
-          
-          { // eslint-disable-next-line 
-          }<a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </a>
-        </div>
-      </nav>
+      <NavBar>
+        <NavBrand 
+          logo={logo}
+          homeUrl="/"
+        /> 
+        <NavMenu 
+          items={() => {
+            return (
+              <div className="buttons">
+                <LoginToggleButotn 
+                  isSignedIn={props.isSignedIn}
+                  handleLogin={handleLogin}
+                  handleLogout={handleLogout}
+                />
+              </div>
+            );
+          }}
+        />
+      </NavBar>
     </div>
   );
 };

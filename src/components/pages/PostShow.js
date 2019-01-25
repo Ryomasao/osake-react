@@ -3,7 +3,7 @@ import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchPost, deletePost } from '../../actions';
-import Modal from '../molecules/Modal';
+import Modal from '../atoms/ModalOverlay';
 
 class PostShow extends React.Component {
   state = { showModal: false }

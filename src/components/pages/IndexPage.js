@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import DefaultTemplate from '../template/DefaultTemplate';
 import PostList from '../organisms/PostList';
 import LoginModal from '../organisms/LoginModal';
-import { firebaseLogin, firebaseLogout } from '../../firebase';
+import LoadingModal from '../organisms/LoadingModal';
+import { firebaseLogin } from '../../firebase';
+import Link from '../atoms/Link';
 
 class IndexPage extends React.Component {
   state = { showLoginModal: true };
@@ -16,34 +18,48 @@ class IndexPage extends React.Component {
     firebaseLogin();
   }
 
-  handleClickLogout = () => {
-    firebaseLogout();
+  renderLoginModal = () => {
+    return (
+      <LoginModal 
+        onClickCloseButton={this.handleCloseButton}
+        onClickLoginButton={this.handleLoginButton}
+      />
+    );
   }
 
-  renderLodaingOrContent() {
+  renderMainContent = () => {
+    return (
+      <section className="seciton">
+        { this.props.isSignedIn &&
+          <React.Fragment>
+            <Link to="/posts/new" text="投稿する" addClassName="is-large is-fullwidth is-success"/>
+          </React.Fragment>
+        }
+        <PostList />
+      </section>
+    );
+  }
+
+  whatShoudIRender() {
     if (this.props.isSignedIn === null) {
-      return <div> Loading...</div>;
+      return LoadingModal;
     } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
-      return (
-        <LoginModal 
-          onClickCloseButton={this.handleCloseButton}
-          onClickLoginButton={this.handleLoginButton}
-        />
-      );
+      return this.renderLoginModal;
     } else {
-      return (
-        <section className="seciton">
-          <button type="button" onClick={this.handleClickLogout}>logout</button>
-          <PostList />
-        </section>
-      );
+      return this.renderMainContent;
     }
   }
 
   render() {
+    // DefaultTemplateのchild要素として、bodyを入れた方が分かりやすい気がする。
+    // しかし、DefaultTemplate側で、props.children(props)をする必要があり、うまくいかなかったので、やめた。
+    // 方法自体は、以下の通り、React.cloneElementをつかばいける。
+    // https://medium.com/@markgituma/passing-data-to-props-children-in-react-5399baea0356
+    // なんだけど、React.Children.mapの組み合わせでやった場合、childがネストしているchildにも、propsを渡そうとする。
+    // 結果、うまくいかなかった。エラー忘れた、、、
+    // React.Children.mapで最上位のノードのみ処理すればいいだけの気もするが、とりあえずbodyプロパティで渡すことにした。
     return (
-      <DefaultTemplate>
-        {this.renderLodaingOrContent()}
+      <DefaultTemplate body={this.whatShoudIRender()}>
       </DefaultTemplate>
     );
   }

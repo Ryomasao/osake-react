@@ -1,2 +1,2 @@
-export * from './postActions';
 export * from './authActions';
+export * from './postActions';
