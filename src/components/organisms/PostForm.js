@@ -1,6 +1,6 @@
 import React from 'react';
 import GoodCount from '../molecules/GoodCount';
-import ImagePreview from '../molecules/ImagePreview';
+import ImageUploader from '../molecules/ImageUploader';
 import { Formik, Form, Field } from 'formik';
 
 const handleSubmit =  async (values, actions, onSubmit) => {
@@ -23,7 +23,7 @@ const validate = ({ post, image }) => {
 };
 
 const ImagePreviewWrapper = props => (
-  <ImagePreview 
+  <ImageUploader 
     onChange={(file, name) => {
       props.form.setFieldValue('image.name', name);
       props.form.setFieldValue('image.file', file);

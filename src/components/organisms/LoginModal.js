@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Modal from '../molecules/ModalCotent';
 import LoginButtons from '../molecules/LoginButtons';
 import Button from '../atoms/Button';
+import Title from '../atoms/Title';
 import modal from '../../static/img/modal.png';
 
 
@@ -10,7 +11,7 @@ const LoginModalComponent = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <h4 className="title is-4">土と青</h4>
+        <Title>土と青</Title>
       </Header>
       <ImageWrapper>
         <img src={modal} alt="login"/>
