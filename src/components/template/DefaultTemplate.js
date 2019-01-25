@@ -40,6 +40,7 @@ const mapStateToProps = state => {
 const Wrapper = styled.div`
   font-family: 'Sawarabi Gothic', sans-serif;
   background-color: #eff0eb;
+  color: #363636;
 `;
 
 

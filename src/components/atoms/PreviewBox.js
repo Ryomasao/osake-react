@@ -36,14 +36,6 @@ const InputFile = styled.input`
 `;
 
 const InputLabel = styled.label`
-  display: block;
-  border: 1px dashed;
-  width:  200px;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #D0D1CC;
 `;
 
 const PreviewWrapper = styled.div`
