@@ -13,14 +13,15 @@ class DefaultTemplate extends React.Component {
 
   render() {
     const Header = this.props.header ? this.props.header : DefaultHeader;
+    const Body = this.props.body;
 
     return (
       <Wrapper>
         <header className="header">
-          <Header />
+          <Header isSignedIn={this.props.isSignedIn}/>
         </header>
         <section className="section main">
-          {this.props.children}
+          <Body isSignedIn={this.props.isSignedIn}/>
         </section>
         <footer className="footer">
           {this.props.footer}
@@ -30,12 +31,19 @@ class DefaultTemplate extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    isSignedIn: state.auth.isSignedIn
+  };
+};
+
 const Wrapper = styled.div`
   font-family: 'Sawarabi Gothic', sans-serif;
   background-color: #eff0eb;
 `;
 
-export default connect(null, {
+
+export default connect(mapStateToProps, {
   signIn,
   signOut,
 })(DefaultTemplate);

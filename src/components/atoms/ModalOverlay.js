@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Modal = props => {
+const ModalOverLay = props => {
   return ReactDOM.createPortal(
     <div className="modal is-active">
       <div className="modal-background"></div>
@@ -17,4 +17,4 @@ const Modal = props => {
   );
 };
 
-export default Modal;
+export default ModalOverLay;

@@ -1,39 +1,44 @@
 import React from 'react';
 import logo from '../../static/img/logo.jpg';
-import { firebaseLogout } from '../../firebase';
-import Button from '../atoms/Button';
+import { firebaseLogin, firebaseLogout } from '../../firebase';
+import NavBar from '../molecules/NavBar';
+import NavBrand from '../molecules/NavBrand';
+import NavMenu from '../molecules/NavMenu';
+import LoginToggleButotn from '../atoms/LoginToggleButton';
 
-const handleLogoutButton = () => {
+
+const handleLogout = () => {
   firebaseLogout();
 };
 
-class Header extends React.Component {
-  render() {
-    return (
-      <div>
-        <nav className="navbar is-link" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <a className="navbar-item" href="/">
-              <img src={logo} alt="logo" width="112" height="28" />
-            </a>
-          </div>
-          <div className="navbar-menu is-active">
-            <div className="navbar-end">
-              <div className="navbar-item">
-                <div className="buttons">
-                  <Button 
-                    text="ログアウト" 
-                    addClassName="is-light"
-                    onClick={handleLogoutButton}
-                  />
-                </div>
+const handleLogin = () => {
+  firebaseLogin();
+};
+
+const Header = props => {
+  return (
+    <div>
+      <NavBar>
+        <NavBrand 
+          logo={logo}
+          homeUrl="/"
+        /> 
+        <NavMenu 
+          items={() => {
+            return (
+              <div className="buttons">
+                <LoginToggleButotn 
+                  isSignedIn={props.isSignedIn}
+                  handleLogin={handleLogin}
+                  handleLogout={handleLogout}
+                />
               </div>
-            </div>
-          </div>
-        </nav>
-      </div>
-    );
-  }
-}
+            );
+          }}
+        />
+      </NavBar>
+    </div>
+  );
+};
 
 export default Header;
