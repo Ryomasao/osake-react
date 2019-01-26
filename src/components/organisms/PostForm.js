@@ -7,7 +7,6 @@ import Label from '../atoms/Label';
 import Button from '../atoms/Button';
 import moment from 'moment';
 import DatePickerWithLabel from '../molecules/DatePickerWithLabel';
-import DatePicker from '../atoms/DatePicker';
 
 const handleSubmit =  async (values, actions, onSubmit) => {
   await onSubmit(values);
@@ -59,6 +58,24 @@ const GoodCountWrapper = props => {
   );
 };
 
+const DatePickerWrapper = props => {
+  return (
+    <DatePickerWithLabel 
+      onChange={
+        selectedDate => {
+          const date =  moment(selectedDate).format('YYYY/MM/DD');
+          props.form.setFieldValue('post.date', date);
+        }
+      }
+      value={props.field.value} 
+    />
+  );
+};
+
+const TextAreaWrapper = ({field}) => {
+  return <TextArea {...field} placeholder="たくさんのおもいでを"/>;
+};
+
 const initialFormValues = {
   post : {
     imagePath: '',
@@ -94,13 +111,13 @@ class PostForm extends React.Component {
                 <Field 
                   type="date" 
                   name="post.date" 
-                  component={ ({field, ...props}) => <DatePickerWithLabel {...field} {...props}/>}
+                  component={DatePickerWrapper}
                 />
               </div>
 
               <div className="field">
                 <Label className="label">おもいで</Label>
-                <Field name="post.note" component={() => <TextArea placeholder="たくさんのおもいでを"/>} />
+                <Field name="post.note" component={TextAreaWrapper} />
               </div>
 
               <Label>評価</Label>
