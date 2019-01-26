@@ -1,12 +1,16 @@
 import React from 'react';
+import styled from 'styled-components';
 import GoodCount from '../molecules/GoodCount';
 import ImageUploader from '../molecules/ImageUploader';
 import { Formik, Form, Field } from 'formik';
 import TextArea from '../atoms/TextArea';
 import Label from '../atoms/Label';
 import Button from '../atoms/Button';
+import Link from '../atoms/Link';
+import Supply from '../atoms/Supply';
 import moment from 'moment';
 import DatePickerWithLabel from '../molecules/DatePickerWithLabel';
+import LoadingModal from './LoadingModal';
 
 const handleSubmit =  async (values, actions, onSubmit) => {
   await onSubmit(values);
@@ -123,9 +127,10 @@ class PostForm extends React.Component {
               <Label>評価</Label>
               <Field name="post.favos" component={GoodCountWrapper} />
 
-              <Label htmlFor="sake-image">しゃしん</Label>
-              <Field name="image" previewUrl={props.values.post.imagePath} component={ImagePreviewWrapper} />
-              { props.errors.image ? <p>{props.errors.image}</p> : null}
+              <FieldWrapper>
+                <Field name="image" previewUrl={props.values.post.imagePath} component={ImagePreviewWrapper} />
+                { props.errors.image ? <Supply error>{props.errors.image}</Supply> : null}
+              </FieldWrapper>
 
               <Button 
                 type="submit" 
@@ -134,6 +139,11 @@ class PostForm extends React.Component {
               >
                 投稿する
               </Button>
+
+              <FieldWrapper>
+                <Link to="/" addClassName="is-fullwidth">もどる</Link>
+                { props.isSubmitting && <LoadingModal title="アップロードしてます"/>}
+              </FieldWrapper>
             </Form>
           );
         }}
@@ -141,5 +151,10 @@ class PostForm extends React.Component {
     );
   }
 }
+
+const FieldWrapper =  styled.div`
+  margin: 1rem 0;  
+`;
+
 
 export default PostForm;

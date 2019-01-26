@@ -2,12 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LinkComponent = props => {
+  const addClassName = props.addClassName || null
   return (
     <Link 
       to={props.to}
-      className={`button ${props.addClassName}`}
+      className={`button ${addClassName}`}
       onClick={props.onClick}
-    >{props.text}</Link>    
+    >{props.children}</Link>    
   );
 };
 

@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { signIn, signOut } from '../../actions';
 import DefaultHeader from '../organisms/Header';
+import DefaultFooter from '../organisms/Footer';
 import { fireBaseAuthObserver } from '../../firebase';
+import Colors from '../atoms/Colors';
 
 class DefaultTemplate extends React.Component {
   // @ToDO HOOKSを使えばFunctionalComponentにできるかな
@@ -12,7 +14,8 @@ class DefaultTemplate extends React.Component {
   }
 
   render() {
-    const Header = this.props.header ? this.props.header : DefaultHeader;
+    const Header = this.props.header ||DefaultHeader;
+    const Footer = this.props.header ||DefaultFooter;
     const Body = this.props.body;
 
     return (
@@ -20,11 +23,11 @@ class DefaultTemplate extends React.Component {
         <header className="header">
           <Header isSignedIn={this.props.isSignedIn}/>
         </header>
-        <section className="section main">
+        <main>
           <Body isSignedIn={this.props.isSignedIn}/>
-        </section>
-        <footer className="footer">
-          {this.props.footer}
+        </main>
+        <footer className="footer" style={{ backgroundColor: `${Colors.mainBackground}`} }>
+          <Footer />
         </footer>
       </Wrapper>
     );

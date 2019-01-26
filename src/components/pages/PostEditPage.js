@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import DefaultTemplate from '../template/DefaultTemplate';
-import PostCreate from '../organisms/PostCreate';
+import PostEdit from '../organisms/PostEdit';
 
-class PostCreatePage extends React.Component {
+class PostEditPage extends React.Component {
 
   renderMainContent = () => {
     return (
       <Wrapper>
         <section className="section">
-          <PostCreate/>
+          <PostEdit />
         </section>
       </Wrapper>
     );
@@ -26,4 +26,4 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-export default PostCreatePage;
+export default PostEditPage;

@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchPosts } from '../../actions';
+import PostItem from '../molecules/PostItem';
+import styled from 'styled-components';
 
-class PostList extends React.Component {
+class PostListComponent extends React.Component {
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -14,24 +15,34 @@ class PostList extends React.Component {
     }
     return this.props.posts.map(post => {
       return (
-        <div className="post-item" key={post.id}>
-          <Link to={`posts/show/${post.id}`} >
-            <img src={post.imagePath} alt="osake"/>
-          </Link>
-        </div>
+        <PostItemWrapper key={post.id}>
+          <PostItem
+            to={`posts/show/${post.id}`}
+            post={post}
+          />
+        </PostItemWrapper>
       );
     });
   }
 
   render() {
     return (
-      <div className="post-list">
-        <h1>PostList</h1>
+      <PostList>
         {this.renderList()}
-      </div>
+      </PostList>
     );
   }
 }
+
+const PostList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const PostItemWrapper = styled.div`
+  width: 30%;
+`;
 
 const mapStateToProps = state => {
   const posts =  state.posts;
@@ -48,4 +59,4 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps, {
   fetchPosts
-})(PostList);
+})(PostListComponent);

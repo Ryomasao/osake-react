@@ -15,30 +15,42 @@ const handleLogin = () => {
   firebaseLogin();
 };
 
-const Header = props => {
-  return (
-    <div>
-      <NavBar>
-        <NavBrand 
-          logo={logo}
-          homeUrl="/"
-        /> 
-        <NavMenu 
-          items={() => {
-            return (
-              <div className="buttons">
-                <LoginToggleButotn 
-                  isSignedIn={props.isSignedIn}
-                  handleLogin={handleLogin}
-                  handleLogout={handleLogout}
-                />
-              </div>
-            );
-          }}
-        />
-      </NavBar>
-    </div>
-  );
-};
+class Header extends React.Component {
+  state = { showMenu : false };
+
+  handleClickHambergerIcon = () => {
+    this.setState({ showMenu: !this.state.showMenu});
+  }
+
+  render() {
+    return (
+      <div>
+        <NavBar>
+          <NavBrand 
+            logo={logo}
+            homeUrl="/"
+            onClickHambergerIcon={this.handleClickHambergerIcon}
+            isActive={this.state.showMenu}
+          /> 
+          { this.state.showMenu &&
+            <NavMenu 
+              items={() => {
+                return (
+                  <div className="buttons">
+                    <LoginToggleButotn 
+                      isSignedIn={this.props.isSignedIn}
+                      handleLogin={handleLogin}
+                      handleLogout={handleLogout}
+                    />
+                  </div>
+                );
+              }}
+            />
+          }
+        </NavBar>
+      </div>
+    );
+  }
+}
 
 export default Header;

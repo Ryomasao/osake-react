@@ -3,13 +3,15 @@ import Modal from '../molecules/ModalCotent';
 import Title from '../atoms/Title';
 import styled from 'styled-components';
 
-const LoadingModalComponent = props => {
-  const title =  props.title || 'ちょとまってね';
+const ConfirmModal = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <Title>{title}</Title>
+        <Title>{props.title}</Title>
       </Header>
+      <Buttons>
+        {props.children}
+      </Buttons>
     </Modal>
   );
 
@@ -19,4 +21,9 @@ const Header = styled.div`
   text-align: center;
 `;
 
-export default LoadingModalComponent;
+const Buttons = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+export default ConfirmModal;
