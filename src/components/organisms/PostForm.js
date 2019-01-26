@@ -1,7 +1,12 @@
 import React from 'react';
 import GoodCount from '../molecules/GoodCount';
-import ImagePreview from '../molecules/ImagePreview';
+import ImageUploader from '../molecules/ImageUploader';
 import { Formik, Form, Field } from 'formik';
+import TextArea from '../atoms/TextArea';
+import Label from '../atoms/Label';
+import Button from '../atoms/Button';
+import moment from 'moment';
+import DatePickerWithLabel from '../molecules/DatePickerWithLabel';
 
 const handleSubmit =  async (values, actions, onSubmit) => {
   await onSubmit(values);
@@ -23,7 +28,7 @@ const validate = ({ post, image }) => {
 };
 
 const ImagePreviewWrapper = props => (
-  <ImagePreview 
+  <ImageUploader 
     onChange={(file, name) => {
       props.form.setFieldValue('image.name', name);
       props.form.setFieldValue('image.file', file);
@@ -53,11 +58,29 @@ const GoodCountWrapper = props => {
   );
 };
 
+const DatePickerWrapper = props => {
+  return (
+    <DatePickerWithLabel 
+      onChange={
+        selectedDate => {
+          const date =  moment(selectedDate).format('YYYY/MM/DD');
+          props.form.setFieldValue('post.date', date);
+        }
+      }
+      value={props.field.value} 
+    />
+  );
+};
+
+const TextAreaWrapper = ({field}) => {
+  return <TextArea {...field} placeholder="たくさんのおもいでを"/>;
+};
+
 const initialFormValues = {
   post : {
     imagePath: '',
     note: '',
-    date: '',
+    date: moment().format('YYYY/MM/DD'),
     favos: 0,
   },
   image: {
@@ -84,15 +107,33 @@ class PostForm extends React.Component {
         { props => {
           return (
             <Form>
-              <label htmlFor="sake-image">しゃしん</label>
+              <div className="field">
+                <Field 
+                  type="date" 
+                  name="post.date" 
+                  component={DatePickerWrapper}
+                />
+              </div>
+
+              <div className="field">
+                <Label className="label">おもいで</Label>
+                <Field name="post.note" component={TextAreaWrapper} />
+              </div>
+
+              <Label>評価</Label>
+              <Field name="post.favos" component={GoodCountWrapper} />
+
+              <Label htmlFor="sake-image">しゃしん</Label>
               <Field name="image" previewUrl={props.values.post.imagePath} component={ImagePreviewWrapper} />
               { props.errors.image ? <p>{props.errors.image}</p> : null}
-              <label htmlFor="sake-note">メモ</label>
-              <Field type="text" name="post.note"/>
-              <label>飲んだ日</label>
-              <Field type="date" name="post.date" />
-              <Field name="post.favos" component={GoodCountWrapper} />
-              <button type="submit" disabled={props.isSubmitting}>投稿する</button>
+
+              <Button 
+                type="submit" 
+                disabled={props.isSubmitting}
+                addClassName="is-success is-fullwidth"
+              >
+                投稿する
+              </Button>
             </Form>
           );
         }}

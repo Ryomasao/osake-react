@@ -2,7 +2,8 @@ import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
 import { createPost } from '../../actions';
-import PostForm from '../organisms/PostForm';
+import Title from '../atoms/Title';
+import PostForm from './PostForm';
 
 class PostCreate extends React.Component {
   handleSubmit = async formValue => {
@@ -22,7 +23,7 @@ class PostCreate extends React.Component {
   render() {
     return (
       <div>
-        PostCreate
+        <Title>しゃしんを投稿しよう！</Title>
         <PostForm onSubmit={this.handleSubmit}/>
       </div>
     );

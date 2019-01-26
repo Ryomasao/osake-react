@@ -1,6 +1,7 @@
 import React from 'react';
+import PreviewBox from '../atoms/PreviewBox';
 
-class ImagePreview extends React.Component {
+class ImageUploder extends React.Component {
   state = { previewUrl: this.props.previewUrl ? this.props.previewUrl : '' }
 
   handleChangeFile = ({ target }) => {
@@ -17,26 +18,15 @@ class ImagePreview extends React.Component {
   }
 
   render() {
-    if (this.state.previewUrl) {
-      return (
-        <div>
-          <img src={this.state.previewUrl} alt="preview"/>      
-          <button onClick={this.handleDeleteFile}>delete</button>
-        </div>
-      );
-    }
-
     return (
-      <div>
-        <input 
-          id="sake-image"
-          name="sake-image" 
-          type="file"
-          onChange={this.handleChangeFile}
-        />
-      </div>
+      <PreviewBox 
+        src={this.state.previewUrl} 
+        alt="preview" 
+        handleChangeFile={this.handleChangeFile}
+        handleDeleteFile={this.handleDeleteFile}
+      />
     );
   }
 }
 
-export default ImagePreview;
+export default ImageUploder;

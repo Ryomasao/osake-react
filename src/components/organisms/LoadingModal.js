@@ -1,12 +1,13 @@
 import React from 'react';
 import Modal from '../molecules/ModalCotent';
+import Title from '../atoms/Title';
 import styled from 'styled-components';
 
 const LoadingModalComponent = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <h4 className="title is-4">ちょっとまってね</h4>
+        <Title>ちょっとまってね</Title>
       </Header>
     </Modal>
   );
