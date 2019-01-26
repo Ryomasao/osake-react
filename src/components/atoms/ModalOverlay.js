@@ -8,10 +8,12 @@ const ModalOverLay = props => {
       <div className="modal-content">
         {props.children}
       </div>
+      {props.onClickCloseButton &&
       <button 
         onClick={props.onClickCloseButton} 
         className="modal-close is-large" 
         aria-label="close"></button>
+      }
     </div>,
     document.querySelector('#modal')
   );

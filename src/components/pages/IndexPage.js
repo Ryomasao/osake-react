@@ -5,7 +5,9 @@ import PostList from '../organisms/PostList';
 import LoginModal from '../organisms/LoginModal';
 import LoadingModal from '../organisms/LoadingModal';
 import { firebaseLogin } from '../../firebase';
+import styled from 'styled-components';
 import Link from '../atoms/Link';
+import Supply from '../atoms/Supply';
 
 class IndexPage extends React.Component {
   state = { showLoginModal: true };
@@ -29,13 +31,17 @@ class IndexPage extends React.Component {
 
   renderMainContent = () => {
     return (
-      <section className="seciton">
-        { this.props.isSignedIn &&
-          <React.Fragment>
+      <section className="section">
+        { this.props.isSignedIn ?
+          <section className="section">
             <Link to="/posts/new" addClassName="is-large is-fullwidth is-success">
               投稿する
             </Link>
-          </React.Fragment>
+          </section>:
+          <Wrapper>
+            { // eslint-disable-next-line
+            }<Supply>おもいでをつくるには<a onClick={this.handleLoginButton}>ログインし</a>てね！</Supply> 
+          </Wrapper>
         }
         <PostList />
       </section>
@@ -66,6 +72,11 @@ class IndexPage extends React.Component {
     );
   }
 }
+
+const Wrapper = styled.div`
+  text-align: center;
+  padding: 1rem;
+`;
 
 const mapStateToProps = state => {
   return {

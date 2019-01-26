@@ -8,7 +8,9 @@ class PostShowPage extends React.Component {
   renderMainContent = () => {
     return (
       <Wrapper>
-        <PostShow />
+        <section className="section">
+          <PostShow />
+        </section>
       </Wrapper>
     );
   }

@@ -4,10 +4,11 @@ import Title from '../atoms/Title';
 import styled from 'styled-components';
 
 const LoadingModalComponent = props => {
+  const title =  props.title || 'ちょとまってね';
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <Title>ちょっとまってね</Title>
+        <Title>{title}</Title>
       </Header>
     </Modal>
   );

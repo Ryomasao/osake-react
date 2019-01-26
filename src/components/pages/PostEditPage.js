@@ -8,7 +8,9 @@ class PostEditPage extends React.Component {
   renderMainContent = () => {
     return (
       <Wrapper>
-        <PostEdit />
+        <section className="section">
+          <PostEdit />
+        </section>
       </Wrapper>
     );
   }

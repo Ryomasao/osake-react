@@ -8,7 +8,9 @@ class PostCreatePage extends React.Component {
   renderMainContent = () => {
     return (
       <Wrapper>
-        <PostCreate />
+        <section className="section">
+          <PostCreate/>
+        </section>
       </Wrapper>
     );
   }
