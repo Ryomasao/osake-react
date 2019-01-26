@@ -7,7 +7,7 @@ const LinkComponent = props => {
       to={props.to}
       className={`button ${props.addClassName}`}
       onClick={props.onClick}
-    >{props.text}</Link>    
+    >{props.children}</Link>    
   );
 };
 

@@ -32,7 +32,9 @@ class IndexPage extends React.Component {
       <section className="seciton">
         { this.props.isSignedIn &&
           <React.Fragment>
-            <Link to="/posts/new" text="投稿する" addClassName="is-large is-fullwidth is-success"/>
+            <Link to="/posts/new" addClassName="is-large is-fullwidth is-success">
+              投稿する
+            </Link>
           </React.Fragment>
         }
         <PostList />

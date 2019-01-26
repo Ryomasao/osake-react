@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { fetchPost, editPost } from '../../actions';
-import PostForm from '../organisms/PostForm';
+import LoadingModal from '../organisms/LoadingModal';
+import PostForm from './PostForm';
 
 class PostEdit extends React.Component {
   componentDidMount() {
@@ -20,7 +21,7 @@ class PostEdit extends React.Component {
     
   render() {
     if(!this.props.post) {
-      return <div>Loading...</div>;
+      return <LoadingModal />;
     }
 
     return (
