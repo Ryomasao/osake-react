@@ -115,7 +115,7 @@ class ImageUploder extends React.Component {
           handleDeleteFile={this.handleDeleteFile}
         />
         <canvas ref={this.ctx} style={{
-          display: 'block',
+          display: 'none',
           border: '1px solid'
         }}/>
       </React.Fragment>
