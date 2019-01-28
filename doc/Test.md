@@ -112,5 +112,34 @@ const setUp = TargetComponent => {
 };
 ```
 
+### jestで特定のモジュールのみmockにしたい
+
+mock対象のmodule
+<b>firebase.ks</b>
+```javascript
+export const login = () => {
+  // login用の何かしらの処理
+};
+
+export const logout = () => {
+  // logout用の処理
+};
+```
+
+```javascript
+import { firebase as mockLogin } from '../../firebase';
+// moduleの特定の関数のみmockにしたい
+//https://github.com/facebook/jest/issues/936#issuecomment-445275844
+jest.mock('../../firebase', () => ({
+  ...jest.requireActual('../../firebase'),
+  login: jest.fn() 
+}));
+
+test('特定のmoduleのみmockにした',  () => {
+  fireEvent.click(LoginButton);
+  expect(mockLogin).toHaveBeenCalled();
+})
+
+```
 
 

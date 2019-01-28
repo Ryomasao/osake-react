@@ -32,7 +32,7 @@ const setUp = (TargetComponent, id) => {
   );
 };
 
-test('render post edit', async () => {
+test.skip('render post edit', async () => {
 
   firebase.get.mockResolvedValue({
     data: {

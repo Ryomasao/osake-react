@@ -11,7 +11,7 @@ const LoginModalComponent = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <Title>土と青</Title>
+        <Title data-testid="login-modal">おさけの思い出を記録しよう</Title>
       </Header>
       <ImageWrapper>
         <img src={modal} alt="login"/>
