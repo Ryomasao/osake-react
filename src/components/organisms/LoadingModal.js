@@ -8,7 +8,7 @@ const LoadingModalComponent = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <Title>{title}</Title>
+        <Title data-testid="loading-modal">{title}</Title>
       </Header>
     </Modal>
   );
