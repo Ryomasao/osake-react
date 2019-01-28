@@ -50,13 +50,10 @@ class IndexPage extends React.Component {
 
   whatShoudIRender() {
     if (this.props.isSignedIn === null) {
-      console.log('loading')
       return LoadingModal;
     } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
-      console.log('login')
       return this.renderLoginModal;
     } else {
-      console.log('main')
       return this.renderMainContent;
     }
   }
