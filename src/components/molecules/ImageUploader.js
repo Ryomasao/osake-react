@@ -69,13 +69,6 @@ class ImageUploder extends React.Component {
         //よっしゃ描画
         canvas.drawImage(image, 0, 0);
         this.ctx.current.toBlob((blob) => resolve(blob));
-
-        //https://gyazo.com/af90977df2ee3c6f464e0ab9af879657
-        //canvas.drawImage(image, 0, 0);
-        //canvas.drawImage(image, 0, 0, width, height, 0, 0, width / 2, height / 2 );
-        //this.$refs.canvas.toBlob((blob) => {
-        //  this.$emit('put', { image: blob, name: this.fileName })
-        //})
       };
     });
   }
