@@ -1,16 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { fetchPosts } from '../../actions';
 import DefaultTemplate from '../template/DefaultTemplate';
 import PostList from '../organisms/PostList';
 import LoginModal from '../organisms/LoginModal';
 import LoadingModal from '../organisms/LoadingModal';
 import { firebaseLogin } from '../../firebase';
-import styled from 'styled-components';
 import Link from '../atoms/Link';
 import Supply from '../atoms/Supply';
 
 class IndexPage extends React.Component {
   state = { showLoginModal: true };
+
+  componentDidMount() {
+    this.props.fetchPosts();
+  }
 
   handleCloseButton = () => {
     this.setState({ showLoginModal: false });
@@ -29,8 +34,28 @@ class IndexPage extends React.Component {
     );
   }
 
-  renderMainContent = () => {
-    return (
+  // ものすごくはまった
+  // action - INIT 
+  // 1.render: ちょっとまってね
+  // action - SignIn
+  // 2.render: PostList ← Postsのデータなし
+  // action - fetchPost
+  // 3.render: PostList  ← Postsのデータ取得完了
+  //
+  // このとき、3のrenderでPostListにアイテムが表示されなかった。
+
+  // というのも、
+  // * renderメソッドは、this.whatShoudIrender()を実行している
+  // * whatShowIRenderは、this.renderMainContent関数を返していた ←ここ重要
+  // 
+  // 3.renderのときにthis.renderMainContentは2.renderと同じ結果になってしまっていた。
+  // なので、関数を返すのではなく、都度実行させるようにしてる。
+  // 
+  // 別環境でやっても再現できない、、、
+  // https://codesandbox.io/s/o5jk8y0ny6
+
+  renderMainContent= () => {
+    return (() => (
       <section className="section">
         { this.props.isSignedIn ?
           <section className="section">
@@ -40,12 +65,12 @@ class IndexPage extends React.Component {
           </section>:
           <Wrapper>
             { // eslint-disable-next-line
-            }<Supply>おもいでをつくるには<a onClick={this.handleLoginButton}>ログインし</a>てね！</Supply> 
+            }<Supply>おもいでをつくるには<a onClick={this.handleLoginButton}>ログイン</a>してね！</Supply> 
           </Wrapper>
         }
-        <PostList />
+        <PostList posts={this.props.posts}/>
       </section>
-    );
+    ));
   }
 
   whatShoudIRender() {
@@ -54,7 +79,8 @@ class IndexPage extends React.Component {
     } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
       return this.renderLoginModal;
     } else {
-      return this.renderMainContent;
+      //return this.renderMainContent;
+      return this.renderMainContent();
     }
   }
 
@@ -79,9 +105,19 @@ const Wrapper = styled.div`
 `;
 
 const mapStateToProps = state => {
+  const posts =  state.posts;
+  // keyをプロパティに含める
+  for(let id in posts) {
+    posts[id] = { ...posts[id] , id: id };
+  }
+
   return {
-    isSignedIn: state.auth.isSignedIn
+    isSignedIn: state.auth.isSignedIn,
+    // mapが使えるように、Object in Object から Object in Arrayにする
+    posts: Object.values(posts),
   };
 };
 
-export default connect(mapStateToProps)(IndexPage);
+export default connect(mapStateToProps, {
+  fetchPosts
+})(IndexPage);

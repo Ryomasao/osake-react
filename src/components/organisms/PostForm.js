@@ -76,8 +76,8 @@ const DatePickerWrapper = props => {
   );
 };
 
-const TextAreaWrapper = ({field}) => {
-  return <TextArea {...field} placeholder="たくさんのおもいでを"/>;
+const TextAreaWrapper = ({ field, id }) => {
+  return <TextArea {...field} id={id} placeholder="たくさんのおもいでを"/>;
 };
 
 const initialFormValues = {
@@ -120,8 +120,8 @@ class PostForm extends React.Component {
               </div>
 
               <div className="field">
-                <Label className="label">おもいで</Label>
-                <Field name="post.note" component={TextAreaWrapper} />
+                <Label htmlFor="note" className="label">おもいで</Label>
+                <Field id="note" name="post.note" component={TextAreaWrapper} />
               </div>
 
               <Label>評価</Label>

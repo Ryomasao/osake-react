@@ -1,14 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchPosts } from '../../actions';
 import PostItem from '../molecules/PostItem';
 import styled from 'styled-components';
 
 class PostListComponent extends React.Component {
-  componentDidMount() {
-    this.props.fetchPosts();
-  }
-
   renderList() {
     if(!this.props.posts) {
       return null;
@@ -44,19 +38,4 @@ const PostItemWrapper = styled.div`
   width: 30%;
 `;
 
-const mapStateToProps = state => {
-  const posts =  state.posts;
-  // keyをプロパティに含める
-  for(let id in posts) {
-    posts[id] = { ...posts[id] , id: id };
-  }
-  // mapが使えるように、Object in Object から Object in Arrayにする
-  return { 
-    posts: Object.values(posts),
-    isSignedIn: state.auth.isSignedIn,
-  };
-};
-
-export default connect(mapStateToProps, {
-  fetchPosts
-})(PostListComponent);
+export default PostListComponent;
