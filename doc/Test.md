@@ -73,6 +73,7 @@ jest.mock('../../apis/firebase', () => (
 ```
 
 テスト内で、mockの設定をする。
+つまり、mock用のオブジェクトを一回つくってあげるってことだね
 ```javascript
 test('render post edit', async () => {
   firebase.get.mockResolvedValue({
@@ -128,11 +129,12 @@ export const logout = () => {
 
 ```javascript
 import { firebase as mockLogin } from '../../firebase';
+
 // moduleの特定の関数のみmockにしたい
 //https://github.com/facebook/jest/issues/936#issuecomment-445275844
 jest.mock('../../firebase', () => ({
   ...jest.requireActual('../../firebase'),
-  login: jest.fn() 
+  firebaseLogin: jest.fn() 
 }));
 
 test('特定のmoduleのみmockにした',  () => {

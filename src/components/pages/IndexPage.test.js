@@ -1,4 +1,4 @@
-import { render, fireEvent } from 'react-testing-library';
+import { render, fireEvent, wait } from 'react-testing-library';
 import { createStore, applyMiddleware } from 'redux';
 import { setUp } from '../utils/setup';
 import thunk from 'redux-thunk';
@@ -8,19 +8,16 @@ import {
   firebaseLogin as mockFirebaseLogin, 
   fireBaseAuthObserver  as mockFireBaseAuthObserver
 } from '../../firebase';
-import { signOut } from '../../actions';
-
-// moduleの特定の関数のみmockにしたい
-//https://github.com/facebook/jest/issues/936#issuecomment-445275844
-//jest.mock('../../firebase', () => ({
-//  ...jest.requireActual('../../firebase'),
-//  firebaseLogin: jest.fn() 
-//}));
+import { signIn, signOut } from '../../actions';
+import firebaseREST from '../../apis/firebase';
+import { posts, user } from '../../mock/dummyData';
 
 jest.mock('../../firebase');
+jest.mock('../../apis/firebase', () => (
+  { get: jest.fn() }
+));
 
-test('firebaseの認証情報取得中は、ちょっとまってねのモーダルが表示されること', async () => {
-
+test('firebaseの認証情報取得中は、ちょっとまってねのモーダルが表示され、そこからログインモーダルが表示されること', async () => {
   // 認証状態を監視する関数を何もしない関数に置き換えとく
   mockFireBaseAuthObserver.mockImplementation(() => {});
   // mockが呼ばれたことを確認するため、jest.fnを返す
@@ -46,3 +43,22 @@ test('firebaseの認証情報取得中は、ちょっとまってねのモーダ
   // 実際は外部認証サイトにリダイレクトするところを、mockが呼ばれたことでOKとする
   expect(mockFirebaseLogin).toHaveBeenCalled();
 });
+
+test('ログイン後は、アイテムの一覧が表示されること', async () => {
+
+  const store = createStore(reducers, applyMiddleware(thunk));
+  const targetComponent = setUp(IndexPage, store);
+
+  // ログイン状態を再現
+  store.dispatch(signIn(user));
+
+  firebaseREST.get.mockResolvedValue({
+    data: posts
+  });
+
+  const { getByTestId } = render(targetComponent);
+
+  // PostItemが表示されていること
+  await wait(() => expect(getByTestId('post-item')).toBeInTheDocument());
+});
+
