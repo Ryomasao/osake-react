@@ -1,6 +1,4 @@
-import 'jest-dom/extend-expect';
-import 'react-testing-library/cleanup-after-each';
-import { render, wait, fireEvent } from 'react-testing-library';
+import { render, fireEvent } from 'react-testing-library';
 import { createStore, applyMiddleware } from 'redux';
 import { setUp } from '../utils/setup';
 import thunk from 'redux-thunk';

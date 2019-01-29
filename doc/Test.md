@@ -142,4 +142,14 @@ test('特定のmoduleのみmockにした',  () => {
 
 ```
 
+## jestのconfig
+https://facebook.github.io/create-react-app/docs/running-tests#initializing-test-environment
+
+create-react-appでつくったパッケージの場合、`src/setupTest.js`に書いとくと勝手に読み込む。
+本来は、package.jsonで参照先を書いたりするみたい。
+
+jestのversion24をつかえるようになったら試す。create-react-appがjest23なので使ってない。
+https://www.youtube.com/watch?v=VZEszZxeJQs
+
+
 
