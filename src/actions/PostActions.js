@@ -12,6 +12,7 @@ import {
 export const fetchPosts = () => async dispatch => {
   const response = await firebaseREST.get('/posts.json');
   // response data is...
+  // @see /mock/dummyData/posts.js
   // { 
   //  id: { postdata }, 
   //  id: { postdata }, 
