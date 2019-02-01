@@ -77,15 +77,17 @@ class IndexPage extends React.Component {
     ));
   }
 
-  whatShoudIRender() {
-    if (this.props.isSignedIn === null) {
-      return LoadingModal;
-    } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
-      return this.renderLoginModal;
-    } else {
-      //return this.renderMainContent;
-      return this.renderMainContent();
-    }
+  whatShoudIRender = () =>  {
+    return () => {
+      if (this.props.isSignedIn === null) {
+        return LoadingModal;
+      } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
+        return this.renderLoginModal;
+      } else {
+        //return this.renderMainContent;
+        return this.renderMainContent();
+      }
+    };
   }
 
   render() {
