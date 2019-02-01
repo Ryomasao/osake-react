@@ -6,12 +6,11 @@ import Button from '../atoms/Button';
 import Title from '../atoms/Title';
 import modal from '../../static/img/modal.png';
 
-
 const LoginModalComponent = props => {
   return (
     <Modal onClickCloseButton={props.onClickCloseButton}>
       <Header>
-        <Title data-testid="login-modal">おさけの思い出を記録しよう</Title>
+        <Title data-testid="login-modal">おもいでをのこす</Title>
       </Header>
       <ImageWrapper>
         <img src={modal} alt="login"/>

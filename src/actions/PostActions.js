@@ -10,7 +10,7 @@ import {
 } from './types';
 
 export const fetchPosts = () => async dispatch => {
-  const response = await firebaseREST.get('/posts.json');
+  const response = await firebaseREST.get(`/${process.env.REACT_APP_SAVE_POST_TO}.json`);
   // response data is...
   // @see /mock/dummyData/posts.js
   // { 
@@ -22,7 +22,7 @@ export const fetchPosts = () => async dispatch => {
 };
 
 export const fetchPost = id => async dispatch => {
-  const response = await firebaseREST.get(`/posts/${id}.json`);
+  const response = await firebaseREST.get(`/${process.env.REACT_APP_SAVE_POST_TO}/${id}.json`);
   const post = { [id]: response.data };
   // response data is...
   // { 
@@ -43,7 +43,7 @@ export const createPost = formValue => async (dispatch, getState) => {
     userId,
     createdAt: new Date().toISOString()
   };
-  const response = await firebaseREST.post(`/users/${userId}/posts.json?auth=${token}`, post );
+  const response = await firebaseREST.post(`/${process.env.REACT_APP_SAVE_USER_TO}/${userId}/posts.json?auth=${token}`, post );
 
   const createdPost = { [response.data.name]: post };
   dispatch({ type: CREATE_POST, payload: createdPost});
@@ -69,7 +69,7 @@ export const editPost = (id, formValue) => async (dispatch, getState) => {
     imagePath,
     updatedAt: new Date().toISOString()
   };
-  const response = await firebaseREST.patch(`/users/${userId}/posts/${id}.json?auth=${token}`, post );
+  const response = await firebaseREST.patch(`/${process.env.REACT_APP_SAVE_USER_TO}/${userId}/posts/${id}.json?auth=${token}`, post );
 
   const editedPost = { [id]: response.data };
   dispatch({ type: EDIT_POST, payload: editedPost});
@@ -79,13 +79,13 @@ export const deletePost = id => async (dispatch, getState) => {
   const token = await getState().auth.user.getIdToken(true);
   const userId = getState().auth.userId;
 
-  await firebaseREST.delete(`/users/${userId}/posts/${id}.json?auth=${token}`);
+  await firebaseREST.delete(`/${process.env.REACT_APP_SAVE_USER_TO}/${userId}/posts/${id}.json?auth=${token}`);
   dispatch({ type: DELETE_POST, payload: id });
 };
 
 const _uploadImage = async ({ image }) => {
   const storageRef = firebase.storage().ref();
-  const imageRef = storageRef.child('osake-images');
+  const imageRef = storageRef.child(`${process.env.REACT_APP_SAVE_POST_IMAGE_TO}`);
   const createdDate = new Date().getTime();
   const spaceRef = imageRef.child(`${createdDate}_${image.name}`);
   await spaceRef.put(image.file)

@@ -14,21 +14,21 @@ class DefaultTemplate extends React.Component {
   }
 
   render() {
-    const Header = this.props.header ||DefaultHeader;
-    const Footer = this.props.header ||DefaultFooter;
+    const HeaderContent = this.props.header ||DefaultHeader;
+    const FooterContent = this.props.header ||DefaultFooter;
     const Body = this.props.body;
 
     return (
       <Wrapper>
         <header className="header">
-          <Header isSignedIn={this.props.isSignedIn}/>
+          <HeaderContent isSignedIn={this.props.isSignedIn}/>
         </header>
-        <main>
+        <Main>
           <Body isSignedIn={this.props.isSignedIn}/>
-        </main>
-        <footer className="footer" style={{ backgroundColor: `${Colors.mainBackground}`} }>
-          <Footer />
-        </footer>
+        </Main>
+        <Footer style={{ backgroundColor: `${Colors.footer}`} }>
+          <FooterContent />
+        </Footer>
       </Wrapper>
     );
   }
@@ -44,6 +44,16 @@ const Wrapper = styled.div`
   font-family: 'Sawarabi Gothic', sans-serif;
   background-color: #eff0eb;
   color: #363636;
+`;
+
+//102px = headerHeight + footerHeight
+const Main = styled.main`
+  min-height: calc(100vh - 102px);
+`;
+
+const Footer = styled.footer`
+  height: 50px;
+  background-color: ${Colors.footer};
 `;
 
 

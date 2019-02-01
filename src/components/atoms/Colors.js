@@ -1,3 +1,4 @@
 export default {
-  mainBackground: '#eff0eb'
+  mainBackground: '#eff0eb',
+  footer: '#ffffff'
 };

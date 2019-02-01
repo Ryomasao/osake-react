@@ -7,6 +7,15 @@ class PostListComponent extends React.Component {
     if(!this.props.posts) {
       return null;
     }
+
+    if(this.props.posts.length === 0) {
+      return (
+        <Noting>
+            まだ、なにもない
+        </Noting>
+      );
+    }
+
     return this.props.posts.map(post => {
       return (
         <PostItemWrapper key={post.id}>
@@ -36,6 +45,11 @@ const PostList = styled.div`
 
 const PostItemWrapper = styled.div`
   width: 30%;
+`;
+
+const Noting = styled.div`
+  text-align: center;
+  width: 100%;
 `;
 
 export default PostListComponent;

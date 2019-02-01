@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../actions';
 import DefaultTemplate from '../template/DefaultTemplate';
+import ProductContext from '../../context/ProductContext';
 import PostList from '../organisms/PostList';
 import LoginModal from '../organisms/LoginModal';
 import LoadingModal from '../organisms/LoadingModal';
@@ -12,6 +13,9 @@ import Supply from '../atoms/Supply';
 
 class IndexPage extends React.Component {
   state = { showLoginModal: true };
+
+  // @TODO 必要に応じて文言をかえるかも
+  static contextType = ProductContext;
 
   componentDidMount() {
     this.props.fetchPosts();
@@ -51,7 +55,7 @@ class IndexPage extends React.Component {
   // 3.renderのときにthis.renderMainContentは2.renderと同じ結果になってしまっていた。
   // なので、関数を返すのではなく、都度実行させるようにしてる。
   // 
-  // 別環境でやっても再現できない、、、
+  // うーむ、別環境でやっても再現できない、、、
   // https://codesandbox.io/s/o5jk8y0ny6
 
   renderMainContent= () => {
