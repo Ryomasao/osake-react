@@ -23,7 +23,7 @@ afterEach(() => {
   mockFirebaseREST.get.mockClear();
 });
 
-test.skip('firebaseの認証情報取得中は、ちょっとまってねのモーダルが表示され、そこからログインモーダルが表示されること', async () => {
+test('firebaseの認証情報取得中は、ちょっとまってねのモーダルが表示され、そこからログインモーダルが表示されること', async () => {
   // 認証状態を監視する関数を何もしない関数に置き換えとく
   mockFireBaseAuthObserver.mockImplementation(() => {});
   // mockが呼ばれたことを確認するため、jest.fnを返す
