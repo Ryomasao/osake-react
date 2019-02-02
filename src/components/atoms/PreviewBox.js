@@ -39,11 +39,11 @@ const PreviewBoxComponent = props => {
 };
 
 const PreviewBox = styled.img`
-  border: 1px dashed;
 `;
 
 const PreviewWrapper = styled.div`
   position: relative;
+  border: 1px dashed;
 `;
 
 const DeleteImageButton = styled(DeleteButton)`

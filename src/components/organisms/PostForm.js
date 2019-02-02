@@ -127,7 +127,7 @@ class PostForm extends React.Component {
               <Label>評価</Label>
               <Field name="post.favos" component={GoodCountWrapper} />
 
-              <FieldWrapper>
+              <FieldWrapper width="300px">
                 <Field name="image" previewUrl={props.values.post.imagePath} component={ImagePreviewWrapper} />
                 { props.errors.image ? <Supply error>{props.errors.image}</Supply> : null}
               </FieldWrapper>
@@ -153,7 +153,8 @@ class PostForm extends React.Component {
 }
 
 const FieldWrapper =  styled.div`
-  margin: 1rem 0;  
+  margin: 1rem auto;  
+  width: ${({width}) => width}
 `;
 
 
