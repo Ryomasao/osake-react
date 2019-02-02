@@ -1,6 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import Icon from '../atoms/Icon';
 import Button from '../atoms/Button';
+
+function createIcons (count) {
+  let element = [];
+  for(let i = 0; i < count; i++ ) {
+    element.push(<Icon key={i}/>);
+  }
+  return element;
+}
 
 const GoodCount = props => (
   <Wrapper>
@@ -10,7 +19,7 @@ const GoodCount = props => (
       onClick={props.onClick}
     >
     おいしい</Button>
-    <span>{props.value}</span>
+    <Favos>{createIcons(props.value)}</Favos>
     <Button 
       type="button" 
       name="decrement" 
@@ -23,7 +32,18 @@ const GoodCount = props => (
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
+`;
+
+const Favos = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  & div {
+    width: 10%;
+  }
+
 `;
 
 export default GoodCount;
-
