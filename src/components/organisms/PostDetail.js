@@ -1,5 +1,6 @@
 import React from 'react';
 import Label from '../atoms/Label';
+import Fabos from '../molecules/Fabos';
 
 const PostDetail = props => {
   const { 
@@ -23,7 +24,7 @@ const PostDetail = props => {
       <Label>更新した日</Label>
       <p>{updatedAt}</p>
       <Label>評価</Label>
-      <p>{favos}</p>
+      <Fabos count={favos}/>
     </div>
   );
 };
