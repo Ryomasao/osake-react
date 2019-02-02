@@ -4,9 +4,9 @@ import Title from '../atoms/Title';
 import styled from 'styled-components';
 
 const LoadingModalComponent = props => {
-  const title =  props.title || 'ちょっとまってね';
+  const title =  (props && props.title) || 'ちょっとまってね';
   return (
-    <Modal onClickCloseButton={props.onClickCloseButton}>
+    <Modal>
       <Header>
         <Title data-testid="loading-modal">{title}</Title>
       </Header>

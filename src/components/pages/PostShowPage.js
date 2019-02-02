@@ -61,25 +61,25 @@ class PostShowPage extends React.Component {
   }
 
   renderMainContent = () => {
-    return () => {
-      if(!this.props.post) {
-        return <LoadingModal />;
-      }
+    if(!this.props.post) {
+      return <LoadingModal />;
+    }
 
-      return (
-        <Wrapper>
-          <section className="section">
-            <PostDetail post={this.props.post}/>
-            {this.props.isOwnPost ? this.renderIfOwnPost() : null}
-          </section>
-        </Wrapper>
-      );
-    };
+    return (
+      <Wrapper>
+        <section className="section">
+          <PostDetail post={this.props.post}/>
+          {this.props.isOwnPost ? this.renderIfOwnPost() : null}
+        </section>
+      </Wrapper>
+    );
   }
 
   render() {
     return (
-      <DefaultTemplate body={this.renderMainContent()} />
+      <DefaultTemplate>
+        {this.renderMainContent()}
+      </DefaultTemplate>
     );
   }
 }

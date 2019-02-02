@@ -17,7 +17,9 @@ class PostCreatePage extends React.Component {
 
   render() {
     return (
-      <DefaultTemplate body={this.renderMainContent} />
+      <DefaultTemplate>
+        {this.renderMainContent()}
+      </DefaultTemplate>
     );
   }
 }
