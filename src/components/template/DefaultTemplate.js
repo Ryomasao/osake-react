@@ -16,17 +16,19 @@ class DefaultTemplate extends React.Component {
   render() {
     const HeaderContent = this.props.header ||DefaultHeader;
     const FooterContent = this.props.header ||DefaultFooter;
-    const Body = this.props.body;
 
+    // DefaultTemplateの状態をprops.chidlrenに渡すのであれば、
+    // childrenは関数をもらって、ここで実行する形にすればいい
+    // 認証状態をpage側でreduxから取得しているけど、templateから渡したほうが、一元化できていいかな
     return (
       <Wrapper>
         <header className="header">
           <HeaderContent isSignedIn={this.props.isSignedIn}/>
         </header>
         <Main>
-          <Body isSignedIn={this.props.isSignedIn}/>
+          {this.props.children}
         </Main>
-        <Footer style={{ backgroundColor: `${Colors.footer}`} }>
+        <Footer>
           <FooterContent />
         </Footer>
       </Wrapper>

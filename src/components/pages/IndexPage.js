@@ -38,28 +38,9 @@ class IndexPage extends React.Component {
     );
   }
 
-  // ものすごくはまった
-  // action - INIT 
-  // 1.render: ちょっとまってね
-  // action - SignIn
-  // 2.render: PostList ← Postsのデータなし
-  // action - fetchPost
-  // 3.render: PostList  ← Postsのデータ取得完了
-  //
-  // このとき、3のrenderでPostListにアイテムが表示されなかった。
-
-  // というのも、
-  // * renderメソッドは、this.whatShoudIrender()を実行している
-  // * whatShowIRenderは、this.renderMainContent関数を返していた ←ここ重要
-  // 
-  // 3.renderのときにthis.renderMainContentは2.renderと同じ結果になってしまっていた。
-  // なので、関数を返すのではなく、都度実行させるようにしてる。
-  // 
-  // うーむ、別環境でやっても再現できない、、、
   // https://codesandbox.io/s/o5jk8y0ny6
-
   renderMainContent= () => {
-    return (() => (
+    return (
       <section className="section">
         { this.props.isSignedIn ?
           <section className="section">
@@ -74,30 +55,23 @@ class IndexPage extends React.Component {
         }
         <PostList posts={this.props.posts}/>
       </section>
-    ));
+    );
   }
 
-  whatShoudIRender() {
+  whatShoudIRender = () =>  {
     if (this.props.isSignedIn === null) {
-      return LoadingModal;
+      return LoadingModal();
     } else if(this.props.isSignedIn === false && this.state.showLoginModal) {
-      return this.renderLoginModal;
+      return this.renderLoginModal();
     } else {
-      //return this.renderMainContent;
       return this.renderMainContent();
     }
   }
 
   render() {
-    // DefaultTemplateのchild要素として、bodyを入れた方が分かりやすい気がする。
-    // しかし、DefaultTemplate側で、props.children(props)をする必要があり、うまくいかなかったので、やめた。
-    // 方法自体は、以下の通り、React.cloneElementをつかばいける。
-    // https://medium.com/@markgituma/passing-data-to-props-children-in-react-5399baea0356
-    // なんだけど、React.Children.mapの組み合わせでやった場合、childがネストしているchildにも、propsを渡そうとする。
-    // 結果、うまくいかなかった。エラー忘れた、、、
-    // React.Children.mapで最上位のノードのみ処理すればいいだけの気もするが、とりあえずbodyプロパティで渡すことにした。
     return (
-      <DefaultTemplate body={this.whatShoudIRender()}>
+      <DefaultTemplate>
+        {this.whatShoudIRender()}
       </DefaultTemplate>
     );
   }

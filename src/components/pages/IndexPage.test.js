@@ -19,7 +19,6 @@ jest.mock('../../apis/firebase', () => (
 
 afterEach(() => {
   mockFireBaseAuthObserver.mockClear();
-  mockFireBaseAuthObserver.mockClear();
   mockFirebaseREST.get.mockClear();
 });
 
