@@ -5,6 +5,9 @@ export const CREATE_POST = 'CREATE_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const DELETE_POST = 'DELETE_POST';
 
+//POSTIDS
+export const FETCH_POSTIDS = 'FETCH_POSTIDS';
+
 //AuthActions
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
