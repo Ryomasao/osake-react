@@ -18,18 +18,36 @@ export const fetchPosts = () => async dispatch => {
   //  id: { postdata }, 
   //  }
   //
-  dispatch({ type: FETCH_POSTS, payload: response.data});
+
+  const posts = response.data;
+
+  // keyをプロパティに含めて
+  for(let id in posts) {
+    posts[id] = { ...posts[id] , id: id };
+  }
+  // arrayに変換した上で、dateの降順で並び替えとく
+  // https://codepen.io/tohu/pen/YBQeWK
+
+  const orderedArray = _.orderBy(_.toPairs(posts), o => {
+    return [ o[1].date, o[1].createdAt ];
+  }, ['desc', 'desc']);
+
+  const orderedObj = _.fromPairs(orderedArray);
+
+  dispatch({ type: FETCH_POSTS, payload: orderedObj});
 };
 
 export const fetchPost = id => async dispatch => {
   const response = await firebaseREST.get(`/${process.env.REACT_APP_SAVE_POST_TO}/${id}.json`);
-  const post = { [id]: response.data };
   // response data is...
   // { 
   //   postdata, 
   // }
   //
   // add key to postdata
+
+  // fetchPostsにあわせて、idをvalueに含める
+  const post = { [id]: {...response.data, id } };
   dispatch({ type: FETCH_POST, payload: post});
 };
 

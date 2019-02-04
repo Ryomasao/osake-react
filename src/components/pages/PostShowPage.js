@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchPost, deletePost } from '../../actions';
+import { fetchPost, deletePost, fetchPostIds } from '../../actions';
 import Link from '../atoms/Link';
 import Button from '../atoms/Button';
 import DefaultTemplate from '../template/DefaultTemplate';
@@ -16,6 +16,7 @@ class PostShowPage extends React.Component {
 
   componentDidMount() {
     this.props.fetchPost(this.props.match.params.id);
+    this.props.fetchPostIds();
   }
 
   handleDeleteButton = async () => {
@@ -67,6 +68,17 @@ class PostShowPage extends React.Component {
 
     return (
       <Wrapper>
+        <Header>
+          <Link to={`/posts/show/${this.props.prevPostId}`}>
+            前の投稿へ
+          </Link>
+          <Link to="/">
+            一覧へ
+          </Link>
+          <Link to={`/posts/show/${this.props.nextPostId}`}>
+            後の投稿へ
+          </Link>
+        </Header>
         <section className="section">
           <PostDetail post={this.props.post}/>
           {this.props.isOwnPost ? this.renderIfOwnPost() : null}
@@ -86,8 +98,16 @@ class PostShowPage extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const post = state.posts[ownProps.match.params.id];
+
+  const postIds = Object.keys(state.postIds);
+  const postIndex = postIds.findIndex((key) => key === ownProps.match.params.id);
+  const prevPostId = postIndex > 0 ? postIds[postIndex - 1] : null;
+  const nextPostId = postIndex < postIds.length - 1 ? postIds[postIndex + 1] : null;
+
   return { 
     post,
+    prevPostId,
+    nextPostId,
     auth: state.auth,
     // postがloadingできていない状態を考慮
     isOwnPost: post && post.userId === state.auth.userId
@@ -98,6 +118,11 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const Buttons = styled.div`
   display: flex;
   justify-content: space-between;
@@ -105,5 +130,6 @@ const Buttons = styled.div`
 
 export default withRouter(connect(mapStateToProps, {
   fetchPost,
-  deletePost
+  deletePost,
+  fetchPostIds
 })(PostShowPage));

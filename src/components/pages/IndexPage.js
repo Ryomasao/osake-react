@@ -84,14 +84,9 @@ const Wrapper = styled.div`
 
 const mapStateToProps = state => {
   const posts =  state.posts;
-  // keyをプロパティに含める
-  for(let id in posts) {
-    posts[id] = { ...posts[id] , id: id };
-  }
 
   return {
     isSignedIn: state.auth.isSignedIn,
-    // mapが使えるように、Object in Object から Object in Arrayにする
     posts: Object.values(posts),
   };
 };
