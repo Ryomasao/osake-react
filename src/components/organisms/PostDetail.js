@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import Label from '../atoms/Label';
 import Fabos from '../molecules/Fabos';
 
@@ -18,7 +19,7 @@ const PostDetail = props => {
       <p>{date}</p>
       <img src={imagePath} alt="osake"/>
       <Label>おもいで</Label>
-      <p>{note}</p>
+      <Note>{note}</Note>
       <Label>作成した日</Label>
       <p>{createdAt}</p>
       <Label>更新した日</Label>
@@ -28,6 +29,10 @@ const PostDetail = props => {
     </div>
   );
 };
+
+const Note = styled.p`
+  white-space: pre-line;
+`;
 
 export default PostDetail;
 

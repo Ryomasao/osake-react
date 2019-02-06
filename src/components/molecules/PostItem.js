@@ -6,7 +6,9 @@ const PostItem = ({ to, post }) => {
   return (
     <div data-testid="post-item">
       <Link to={to} >
-        <span>{post.date.slice(0,10)}</span>
+        <div>
+          <span>{post.date.slice(0,10)}</span>
+        </div>
         <img src={post.imagePath} alt="osake"/>
       </Link>
     </div>
