@@ -1,5 +1,15 @@
 # お酒の写真を管理するアプリ
 
+## デプロイ方法
+
+```
+$ yarn build
+```
+
+```
+$ cd ./build && firebase deploy
+```
+
 ## メモ
 
 ### package.json の内容をアップデートする
